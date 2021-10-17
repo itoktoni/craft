@@ -1,0 +1,33 @@
+{
+    "name": "itoktoni/item",
+    "description": "for creating Transaction",
+    "authors": [{
+        "name": "Itok toni laksono",
+        "email": "itok.toni@gmail.com"
+    }],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Transaction\\Providers\\ModuleServiceProvider",
+                "Modules\\Transaction\\Providers\\CacheableAuthUserServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Transaction\\": ""
+        },
+        "files": [
+            "plugins/Views.php",
+            "plugins/Helper.php",
+            "plugins/Notes.php",
+            "plugins/Alert.php",
+            "plugins/Response.php",
+            "plugins/Lang.php",
+            "plugins/Debug.php"
+        ]
+    }
+}

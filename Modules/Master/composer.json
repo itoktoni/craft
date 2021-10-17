@@ -1,0 +1,33 @@
+{
+    "name": "itoktoni/master",
+    "description": "for creating Master",
+    "authors": [{
+        "name": "Itok toni laksono",
+        "email": "itok.toni@gmail.com"
+    }],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Master\\Providers\\ModuleServiceProvider",
+                "Modules\\Master\\Providers\\CacheableAuthUserServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Master\\": ""
+        },
+        "files": [
+            "plugins/Views.php",
+            "plugins/Helper.php",
+            "plugins/Notes.php",
+            "plugins/Alert.php",
+            "plugins/Response.php",
+            "plugins/Lang.php",
+            "plugins/Debug.php"
+        ]
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "name": "Master",
+    "alias": "master",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Master\\Providers\\ModuleServiceProvider",
+        "Modules\\Master\\Providers\\EventServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
