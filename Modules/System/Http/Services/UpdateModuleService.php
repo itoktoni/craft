@@ -5,6 +5,7 @@ namespace Modules\System\Http\Services;
 use Modules\System\Dao\Interfaces\CrudInterface;
 use Modules\System\Plugins\Alert;
 use Illuminate\Support\Str;
+use Modules\System\Plugins\Helper;
 
 class UpdateModuleService extends UpdateService
 {
@@ -99,7 +100,7 @@ class UpdateModuleService extends UpdateService
                     'system_action_name' => ucwords(str_replace('_', ' ', Str::snake($name))),
                     'system_action_link' => $code . '/' . Str::snake($function),
                     'system_action_controller' => $getData->system_module_controller,
-                    'system_action_function' => $function,
+                    'system_action_function' => Helper::snake($function),
                     'system_action_sort' => 1,
                     'system_action_show' => $visible,
                     'system_action_enable' => 1,
