@@ -23,10 +23,9 @@ class MonitoringRequest extends FormRequest
 
     public function prepareForValidation()
     {
-        $wo = $this->code;
-
+        // $wo = $this->code;
         $this->merge([
-            MonitoringFacades::mask_wo_code() => $wo,
+            // MonitoringFacades::mask_wo_code() => $wo,
         ]);
 
     }

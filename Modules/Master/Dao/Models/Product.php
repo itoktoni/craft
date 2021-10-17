@@ -59,6 +59,7 @@ class Product extends Model
         'product_sell' => [true => 'Sell', 'width' => 100],
         'product_price' => [true => 'Price', 'width' => 100],
         'product_image' => [false => 'Image', 'width' => 100, 'class' => 'text-center'],
+        'product_description' => [false => 'Image'],
     ];
 
     public function mask_price()
@@ -151,7 +152,21 @@ class Product extends Model
         return $this->{$this->mask_supplier_id()};
     }
 
-    
+    public function mask_description()
+    {
+        return 'product_description';
+    }
+
+    public function setMaskDescriptionAttribute($value)
+    {
+        $this->attributes[$this->mask_description()] = $value;
+    }
+
+    public function getMaskDescriptionAttribute()
+    {
+        return $this->{$this->mask_description()};
+    }
+
     public static function boot()
     {
         parent::saving(function ($model) {

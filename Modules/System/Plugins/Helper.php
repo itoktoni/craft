@@ -645,127 +645,127 @@ class Helper
 
     public static function setViewDashboard($template = 'default')
     {
-        return 'page.home.' . $template;
+        return 'page.home.' . self::snake($template);
     }
 
     public static function setViewEmail($template, $module = false)
     {
         if ($module) {
-            return ucfirst($module) . '::email.' . $template;
+            return ucfirst($module) . '::email.' . self::snake($template);
         }
 
-        return 'email.' . $template;
+        return 'email.' . self::snake($template);
     }
 
     public static function setViewSpa($template, $module = false)
     {
         if ($module) {
-            return ucfirst($module) . '::spa.' . $template;
+            return ucfirst($module) . '::spa.' . self::snake($template);
         }
 
-        return 'email.' . $template;
+        return 'email.' . self::snake($template);
     }
 
     public static function setViewPrint($template, $module = false)
     {
         if ($module) {
-            return ucfirst($module) . '::print.' . $template;
+            return ucfirst($module) . '::print.' . self::snake($template);
         }
 
-        return 'print.' . $template;
+        return 'print.' . self::snake($template);
     }
 
     public static function setViewSave($template = 'master', $modular = false)
     {
         if ($modular) {
-            $view = ucfirst($modular) . '::page.' . $template . '.save';
+            $view = ucfirst($modular) . '::page.' .self::snake($template) . '.save';
             return $view;
         }
 
-        return 'page.' . $template . '.save';
+        return 'page.' . self::snake($template) . '.save';
     }
 
     public static function setViewForm($template = 'master', $form = null, $modular = false)
     {
         if ($modular) {
-            $view = ucfirst($modular) . '::page.' . $template . '.' . $form;
+            $view = ucfirst($modular) . '::page.' . self::snake($template) . '.' . $form;
             return $view;
         }
 
-        return 'page.' . $template . '.' . $form;
+        return 'page.' . self::snake($template) . '.' . $form;
     }
 
     public static function setViewCreate($template = 'master', $modular = false)
     {
         if ($modular) {
-            $view = ucfirst($modular) . '::page.' . $template . '.create';
+            $view = ucfirst($modular) . '::page.' . self::snake($template) . '.create';
             return $view;
         }
 
-        return 'page.' . $template . '.create';
+        return 'page.' . self::snake($template) . '.create';
     }
 
     public static function setViewUpdate($template = 'master', $modular = false)
     {
         if ($modular) {
-            $view = ucfirst($modular) . '::page.' . $template . '.update';
+            $view = ucfirst($modular) . '::page.' . self::snake($template) . '.update';
             return $view;
         }
 
-        return 'page.' . $template . '.update';
+        return 'page.' . self::snake($template) . '.update';
     }
 
     public static function setViewData($template = 'master', $modular = false)
     {
         if ($modular) {
-            $view = ucfirst($modular) . '::page.' . $template . '.data';
+            $view = ucfirst($modular) . '::page.' . self::snake($template) . '.data';
             return $view;
         }
-        return 'page.' . $template . '.data';
+        return 'page.' . self::snake($template) . '.data';
     }
 
     public static function setViewPopup($template = 'master', $modular = false)
     {
         if ($modular) {
-            $view = ucfirst($modular) . '::page.' . $template . '.popup';
+            $view = ucfirst($modular) . '::page.' . self::snake($template) . '.popup';
             return $view;
         }
-        return 'page.' . $template . '.popup';
+        return 'page.' . self::snake($template) . '.popup';
     }
 
     public static function setViewShow($template = 'master', $modular = false)
     {
         if ($modular) {
-            $view = ucfirst($modular) . '::page.' . $template . '.show';
+            $view = ucfirst($modular) . '::page.' . self::snake($template) . '.show';
             return $view;
         }
 
-        return 'page.' . $template . '.show';
+        return 'page.' . self::snake($template) . '.show';
     }
 
     public static function setViewAction($template = 'master', $modular = false)
     {
         if ($modular) {
-            $view = ucfirst($modular) . '::page.' . $template . '.actions';
+            $view = ucfirst($modular) . '::page.' . self::snake($template) . '.actions';
             return $view;
         }
 
-        return 'page.' . $template . '.actions';
+        return 'page.' . self::snake($template) . '.actions';
     }
 
     public static function setViewCheckbox($template = 'master', $modular = false)
     {
         if ($modular) {
-            $view = ucfirst($modular) . '::page.' . $template . '.checkbox';
+            $view = ucfirst($modular) . '::page.' . self::snake($template) . '.checkbox';
             return $view;
         }
 
-        return 'page.' . $template . '.checkbox';
+        return 'page.' . self::snake($template) . '.checkbox';
     }
 
     public static function setViewFrontend($template = 'default')
     {
-        return 'frontend.' . config('website.frontend') . '.page.' . $template;
+        return 'frontend.' . config('website.frontend') . '.page.' . self::snake($template);
     }
 
     public static function setViewLivewire($class, $folder = false)

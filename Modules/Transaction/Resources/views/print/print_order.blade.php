@@ -620,7 +620,7 @@
                     </tr>
                     <tr>
                         <td class="head">
-                            Contact Person
+                            Order By
                         </td>
                         <td>
                             {{ $master->has_customer->name ?? '' }} 
@@ -713,7 +713,7 @@
                             {{ $item->has_product->product_name ?? '' }}
                         </h1>
                         <p>
-                            <strong>Desc : </strong>{!! $item->has_product->product_description ?? '' !!}
+                            <strong>Desc : </strong>{!! $item->has_product->mask_description ?? '' !!}
                         </p>
                     </td>
                     <td class="price">

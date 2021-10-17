@@ -36,6 +36,7 @@ class Monitoring extends Model
         'monitoring_deleted_by',
         'monitoring_status',
         'monitoring_notes',
+        'monitoring_wo_code',
     ];
 
     // public $with = ['has_detail', 'has_supplier'];

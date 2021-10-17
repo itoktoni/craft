@@ -158,7 +158,6 @@ class WorkOrderController extends Controller
     public function doMonitoring(MonitoringRequest $request, WoRepository $repository)
     {
         $check = false;
-        dd($request->all());
         try {
             $check = $repository->monitorRepository($request->all());
             if(isset($check['status']) && $check['status']){

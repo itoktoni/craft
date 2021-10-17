@@ -3,11 +3,11 @@
     <thead>
         <tr>
             <th class="text-center col-md-1">Status</th>
-            <th class="text-left col-md-1">Voucher</th>
+            <th class="text-left col-md-2">Voucher</th>
             <th class="text-left col-md-1">Date</th>
             <th class="text-left col-md-1">Bank From</th>
             <th class="text-left col-md-1">Bank To</th>
-            <th class="text-left col-md-1">Person</th>
+            <th class="text-left col-md-2">Person</th>
             <th class="text-right col-md-1">Amount</th>
             <th class="text-left col-md-2">Notes</th>
             <th class="text-right col-md-1">Approve</th>

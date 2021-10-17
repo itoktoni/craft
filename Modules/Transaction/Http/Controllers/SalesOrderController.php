@@ -146,7 +146,7 @@ class SalesOrderController extends Controller
         return Response::redirectBack($data);
     }
 
-    public function print_order($code)
+    public function printOrder($code)
     {
         $data = $this->get($code, ['has_customer', 'has_detail', 'has_detail.has_product']);
 
@@ -155,6 +155,7 @@ class SalesOrderController extends Controller
             'detail' => $data->has_detail,
             'bank' => Views::option(new BankRepository(), false, true)
         ];
+        
         $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
         return $pdf->stream();
     }

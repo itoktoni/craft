@@ -70,6 +70,10 @@ class PaymentController extends Controller
     {
         return $service
             ->setModel(self::$model)
+            ->EditColumn([
+                self::$model->mask_amount() => 'mask_amount_format',
+                self::$model->mask_approve() => 'mask_approve_format',
+            ])
             ->EditStatus([
                 'payment_status' => PaymentStatus::class,
                 'payment_type' => PaymentType::class,

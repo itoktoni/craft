@@ -26,6 +26,8 @@
                         {!! $errors->first('monitoring_notes', '<p class="help-block">:message</p>') !!}
                     </div>
 
+
+                    <input type="hidden" name="monitoring_wo_code" value="{{ $model->{$model->getKeyName()} }}">
                 </div>
 
             </div>

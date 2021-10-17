@@ -79,16 +79,16 @@ class Payment extends Model
     public $searching = 'payment_person';
     public $datatable = [
         'payment_id' => [false => 'Code', 'width' => 50],
-        'payment_model' => [true => 'Model', 'width' => 80, 'class' => 'text-center'],
-        'payment_bank_from' => [true => 'Bank From', 'width' => 80],
-        'payment_bank_to' => [true => 'Bank To', 'width' => 80],
+        'payment_model' => [true => 'Model', 'width' => 100, 'class' => 'text-center'],
+        'payment_bank_from' => [true => 'Bank From', 'width' => 50],
+        'payment_bank_to' => [true => 'Bank To', 'width' => 50],
         'payment_date' => [true => 'Date', 'width' => 60, 'class' => 'text-center'],
         'payment_reference' => [true => 'Reference', 'width' => 100],
         'payment_person' => [true => 'Person'],
-        'payment_value_user' => [true => 'Value', 'width' => 70],
-        'payment_value_approve' => [true => 'Approve', 'width' => 70],
+        'payment_value_user' => [true => 'Value', 'width' => 50],
+        'payment_value_approve' => [true => 'Approve', 'width' => 50],
         'payment_type' => [true => 'Type', 'width' => 50, 'class' => 'text-center'],
-        'payment_status' => [true => 'Status', 'width' => 80, 'class' => 'text-center'],
+        'payment_status' => [true => 'Status', 'width' => 70, 'class' => 'text-center'],
     ];
 
     public function mask_model()
@@ -211,6 +211,11 @@ class Payment extends Model
         return $this->{$this->mask_amount()};
     }
 
+    public function getMaskAmountFormatAttribute()
+    {
+        return Helper::createRupiah($this->{$this->mask_amount()});
+    }
+
     public function mask_approve()
     {
         return 'payment_value_approve';
@@ -224,6 +229,11 @@ class Payment extends Model
     public function getMaskApproveAttribute()
     {
         return $this->{$this->mask_approve()};
+    }
+
+    public function getMaskApproveFormatAttribute()
+    {
+        return Helper::createRupiah($this->{$this->mask_approve()});
     }
 
     public function mask_file()
