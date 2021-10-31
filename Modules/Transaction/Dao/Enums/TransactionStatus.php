@@ -15,7 +15,7 @@ class TransactionStatus extends Enum
     const Process           =  3;
     const Complete          =  4;
     const Packaging         =  5;
-    const Deliver           =  6;
+    const Delivery           =  6;
     const Pending           =  7;
     const Finish            =  8;
     const Cancel            =  9;
@@ -28,7 +28,7 @@ class TransactionStatus extends Enum
             self::Process => ColorType::Primary,
             self::Complete => ColorType::Primary,
             self::Packaging => ColorType::Primary,
-            self::Deliver => ColorType::Primary,
+            self::Delivery => ColorType::Primary,
             self::Finish => ColorType::Primary,
             self::Cancel => ColorType::Primary,
             self::Pending => ColorType::Primary,

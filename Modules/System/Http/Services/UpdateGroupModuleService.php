@@ -120,6 +120,16 @@ class UpdateGroupModuleService extends UpdateService
                             $metode = 'POST';
                         }
 
+                        if (strpos(strtolower($function), 'list') !== false) {
+                            $visible = '1';
+                            $metode = 'GET';
+                        }
+
+                        if (strpos(strtolower($function), 'print') !== false) {
+                            $visible = '0';
+                            $metode = 'GET';
+                        }
+
                         ActionFacades::create([
                             'system_action_code' => $code . '_' . Str::snake($function),
                             'system_action_module' => $code,

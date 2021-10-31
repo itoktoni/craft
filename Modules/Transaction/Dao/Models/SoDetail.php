@@ -11,10 +11,10 @@ use Modules\Master\Dao\Models\Supplier;
 class SoDetail extends Model
 {
     protected $table = 'so_detail';
-    protected $primaryKey = 'so_detail_id';
+    protected $primaryKey = 'so_detail_so_code';
+    protected $keyType = 'string';
 
     protected $fillable = [
-        'so_detail_id',
         'so_detail_so_code',
         'so_detail_notes',
         'so_detail_product_id',

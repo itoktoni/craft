@@ -15,7 +15,9 @@ class WoUpdateService extends UpdateService
     public function update(CrudInterface $repository, $data, $code)
     {
         $check = $repository->updateRepository($data->all(), $code);
-        WoDetail::upsert($data['detail'], [
+        WoDetail::upsert(
+        $data['detail'], 
+        [
             WoDetailFacades::mask_wo_code(),
             WoDetailFacades::mask_product_id(),
         ], [

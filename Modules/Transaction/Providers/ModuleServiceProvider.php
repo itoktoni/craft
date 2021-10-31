@@ -5,11 +5,13 @@ namespace Modules\Transaction\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Facades\Config;
+use Modules\Transaction\Dao\Models\JoDetail;
 use Modules\Transaction\Dao\Models\Monitoring;
 use Modules\Transaction\Dao\Models\MovementDetail;
 use Modules\Transaction\Dao\Models\SoDetail;
 use Modules\Transaction\Dao\Models\WoDetail;
 use Modules\Transaction\Dao\Repositories\BranchRepository;
+use Modules\Transaction\Dao\Repositories\JoRepository;
 use Modules\Transaction\Dao\Repositories\MovementRepository;
 use Modules\Transaction\Dao\Repositories\SoRepository;
 use Modules\Transaction\Dao\Repositories\StockRepository;
@@ -55,6 +57,12 @@ class ModuleServiceProvider extends ServiceProvider
         });
         $this->app->bind('wo_detail_facades', function () {
             return new WoDetail();
+        });
+        $this->app->bind('jo_facades', function () {
+            return new JoRepository();
+        });
+        $this->app->bind('jo_detail_facades', function () {
+            return new JoDetail();
         });
         $this->app->bind('movement_facades', function () {
             return new MovementRepository();

@@ -58,7 +58,7 @@
                                             for="{{ $act }}">
 
                                             <input id="{{ $control }}" type="checkbox" name="groups[{{ $control }}][data][]"
-                                                {{ in_array($act, $dataAction) ? 'checked' : ''}} value="{{ $act }}">
+                                                {{ in_array(Helper::snake($act), $dataAction) ? 'checked' : ''}} value="{{ $act }}">
                                             
                                             <span class="btn btn-xs btn-primary">
                                                 {{ Helper::functionToLabel($act)  }}

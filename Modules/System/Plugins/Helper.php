@@ -538,7 +538,7 @@ class Helper
             $filter = DB::table(FilterFacades::getTable())->get();
             Cache::put('filter', $filter, 3000);
         }
-
+        
         if (!empty($filter)) {
             $data = $filter
             ->where('module', str_replace('_api', '', Route::currentRouteName()))

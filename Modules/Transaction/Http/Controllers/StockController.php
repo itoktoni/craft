@@ -4,7 +4,10 @@ namespace Modules\Transaction\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Modules\Master\Dao\Repositories\CategoryRepository;
+use Modules\Master\Dao\Repositories\LocationRepository;
 use Modules\Master\Dao\Repositories\ProductRepository;
+use Modules\Master\Dao\Repositories\WarehouseRepository;
+use Modules\System\Dao\Repositories\TeamRepository;
 use Modules\Transaction\Dao\Repositories\BranchRepository;
 use Modules\Transaction\Dao\Repositories\StockRepository;
 use Modules\Transaction\Dao\Repositories\SupplierRepository;
@@ -25,7 +28,7 @@ class StockController extends Controller
     public static $service;
     public static $model;
 
-    public function __construct(CategoryRepository $model, SingleService $service)
+    public function __construct(StockRepository $model, SingleService $service)
     {
         self::$model = self::$model ?? $model;
         self::$service = self::$service ?? $service;
@@ -33,11 +36,15 @@ class StockController extends Controller
 
     private function share($data = [])
     {
-        $branch = Views::option(new BranchRepository());
         $product = Views::option(new ProductRepository());
+        $customer = Views::option(new TeamRepository());
+        $location = Views::option(new LocationRepository());
+        $warehouse = Views::option(new WarehouseRepository());
 
         $view = [
-            'branch' => $branch,
+            'warehouse' => $warehouse,
+            'location' => $location,
+            'customer' => $customer,
             'product' => $product,
             'model' => self::$model,
         ];

@@ -27,8 +27,10 @@ use Modules\Master\Dao\Repositories\PaymentRepository;
 use Modules\System\Http\Services\CreateService;
 use Modules\Transaction\Dao\Repositories\SoRepository;
 use Modules\Transaction\Http\Requests\PaymentRequest;
+use Modules\Transaction\Http\Requests\SoDeliveryRequest;
 use Modules\Transaction\Http\Requests\SoRequest;
 use Modules\Transaction\Http\Services\SoCreateService;
+use Modules\Transaction\Http\Services\SoDeliveryService;
 use Modules\Transaction\Http\Services\SoUpdateService;
 use PHPUnit\TextUI\Help;
 
@@ -180,4 +182,37 @@ class SalesOrderController extends Controller
         $data = $service->save($model, $request);
         return Response::redirectBack($data);
     }
+
+    public function formDelivery($code)
+    {
+        $data = $this->get($code);
+        return view(Views::form('delivery', config('page'), config('folder')))
+        ->with($this->share([
+            'model' => $data,
+            'detail' => $data->has_detail,
+            'order' => [$data->mask_so_code => $data->mask_so_code],
+            'customer' => [$data->mask_customer_id => $data->mask_customer_name],
+            'status' => TransactionStatus::getOptions(TransactionStatus::Process),
+        ]));
+    }
+
+    public function doDelivery(SoDeliveryRequest $request, SoDeliveryService $service)
+    {
+        $data = $service->update(self::$model, $request, $request->code);
+        return Response::redirectBack($data);
+    }
+
+    public function printDelivery($code)
+    {
+        $data = $this->get($code, ['has_customer', 'has_detail', 'has_detail.has_product']);
+
+        $passing = [
+            'master' => $data,
+            'detail' => $data->has_detail,
+        ];
+        
+        $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
+        return $pdf->stream();
+    }
+
 }

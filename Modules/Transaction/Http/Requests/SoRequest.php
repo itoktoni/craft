@@ -6,7 +6,10 @@ use Illuminate\Foundation\Http\FormRequest;
 use Modules\Master\Dao\Facades\ProductFacades;
 use Modules\Master\Dao\Repositories\ProductRepository;
 use Modules\System\Plugins\Helper;
+use Modules\Transaction\Dao\Enums\ServiceStatus;
 use Modules\Transaction\Dao\Enums\TransactionStatus;
+use Modules\Transaction\Dao\Facades\JoDetailFacades;
+use Modules\Transaction\Dao\Facades\JoFacades;
 use Modules\Transaction\Dao\Facades\SalesDetailFacades;
 use Modules\Transaction\Dao\Facades\SoDetailFacades;
 use Modules\Transaction\Dao\Facades\SoFacades;
@@ -36,7 +39,7 @@ class SoRequest extends FormRequest
         if (!empty($this->code)) {
             $autonumber = $this->code;
         }
-
+        
         $map = collect($this->detail)->map(function ($item) use ($autonumber) {
             $data_product = ProductFacades::singleRepository($item['temp_id']);
             $total = $item['temp_qty'] * Helper::filterInput($item['temp_price']) ?? 0;
@@ -49,8 +52,41 @@ class SoRequest extends FormRequest
             $data[SoDetailFacades::mask_total()] = $total;
             return $data;
         }); 
+        
+        $autoJob = Helper::autoNumber(JoFacades::getTable(), JoFacades::getKeyName(), 'JO' . date('Ym'), env('WEBSITE_AUTONUMBER'));
+        $template = JoFacades::dataTemplateRepository($this->so_customer_id);
 
-        $data_wo = $data_wo_detail = [];
+        $data_wo = $data_wo_detail = $data_jo = $data_jo_detail = [];
+
+        $data_jo = [
+            JoFacades::getKeyName() => $autoJob, 
+            JoFacades::mask_so_code() => $autonumber, 
+            JoFacades::mask_customer_id() => $this->{SoFacades::mask_customer_id()} ?? null,
+            JoFacades::mask_status() => ServiceStatus::Create ?? null,
+            'jo_discount_name' => $template->jo_discount_name ?? '', 
+            'jo_discount_value' => $template->jo_discount_value ?? '', 
+            'jo_sum_value' => $template->jo_sum_value ?? '', 
+            'jo_sum_discount' => $template->jo_sum_discount ?? '', 
+            'jo_sum_total' => $template->jo_sum_total ?? '', 
+            'jo_trucking_id' => $template->jo_trucking_id ?? '', 
+            'jo_delivery_pickup' => $template->jo_delivery_pickup ?? '', 
+        ];
+
+        if($template->has_detail){
+
+            foreach($template->has_detail as $detail){
+
+                $data_jo_detail[] = [
+                    JoDetailFacades::mask_jo_code() => $autoJob,
+                    JoDetailFacades::mask_so_code() => $autonumber,
+                    JoDetailFacades::mask_product_id() => $detail->mask_product_id,
+                    JoDetailFacades::mask_product_price() => $detail->mask_product_price ?? '',
+                    JoDetailFacades::mask_qty() => $detail->mask_qty,
+                    JoDetailFacades::mask_price() => $detail->mask_price,
+                    JoDetailFacades::mask_total() => $detail->mask_total,
+                ];
+            }
+        }
 
         if (empty($this->code)) {
 
@@ -102,6 +138,8 @@ class SoRequest extends FormRequest
             'detail' => array_values($map->toArray()),
             'wo' => $data_wo,
             'wo_detail' => $data_wo_detail,
+            'jo' => $data_jo,
+            'jo_detail' => $data_jo_detail,
         ]);
 
     }

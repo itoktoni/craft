@@ -14,6 +14,7 @@ class Location extends Model
     protected $fillable = [
         'location_id',
         'location_name',
+        'location_warehouse_id',
         'location_description',
     ];
 
@@ -23,12 +24,14 @@ class Location extends Model
     public $incrementing = true;
     public $rules = [
         'location_name' => 'required|min:3',
+        'location_warehouse_id' => 'required',
     ];
 
     public $searching = 'location_name';
     public $datatable = [
         'location_id' => [false => 'Code', 'width' => 50],
         'location_name' => [true => 'Name'],
+        'location_warehouse_id' => [true => 'Name'],
         'location_description' => [true => 'Description'],
     ];
 }

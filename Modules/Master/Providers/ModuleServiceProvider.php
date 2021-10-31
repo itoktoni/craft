@@ -70,6 +70,9 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->bind('payment_facades', function () {
             return new \Modules\Master\Dao\Repositories\PaymentRepository();
         });
+        $this->app->bind('service_facades', function () {
+            return new \Modules\Master\Dao\Repositories\ServiceRepository();
+        });
     }
 
     /**

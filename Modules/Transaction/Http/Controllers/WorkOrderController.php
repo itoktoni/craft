@@ -32,6 +32,14 @@ use Modules\Transaction\Http\Requests\MonitoringRequest;
 use Modules\Transaction\Http\Requests\WoRequest;
 use Modules\Transaction\Http\Services\WoCreateService;
 use Modules\Transaction\Http\Services\WoUpdateService;
+use Barryvdh\DomPDF\Facade as PDF;
+use Modules\Master\Dao\Repositories\LocationRepository;
+use Modules\Master\Dao\Repositories\WarehouseRepository;
+use Modules\System\Dao\Facades\TeamFacades;
+use Modules\Transaction\Http\Requests\WoDeliveryRequest;
+use Modules\Transaction\Http\Requests\WoReceiveRequest;
+use Modules\Transaction\Http\Services\WoDeliveryService;
+use Modules\Transaction\Http\Services\WoReceiveService;
 
 class WorkOrderController extends Controller
 {
@@ -51,12 +59,14 @@ class WorkOrderController extends Controller
         $supplier = Views::option(new SupplierRepository());
         $status = TransactionStatus::getOptions();
         $customer = Views::option(new TeamRepository());
+        $location = Views::option(new LocationRepository());
         $order = SoFacades::select(SoFacades::getKeyName())
             ->where(SoFacades::mask_status(), TransactionStatus::Create)
             ->get()->pluck(SoFacades::getKeyName(), SoFacades::getKeyName())
             ->prepend('- Select No. Order -', '');
 
         $view = [
+            'location' => $location,
             'customer' => $customer,
             'supplier' => $supplier,
             'product' => $product,
@@ -105,7 +115,7 @@ class WorkOrderController extends Controller
     public function edit($code)
     {
         $data = $this->get($code);
-        return view(Views::update())->with($this->share([
+        return view(Views::update(config('page'), config('folder')))->with($this->share([
             'model' => $data,
             'detail' => $data->has_detail,
         ]));
@@ -143,6 +153,19 @@ class WorkOrderController extends Controller
         return Response::redirectBack($data);
     }
 
+    public function printWo($code)
+    {
+        $data = $this->get($code, ['has_customer', 'has_detail', 'has_detail.has_product']);
+
+        $passing = [
+            'master' => $data,
+            'detail' => $data->has_detail,
+        ];
+        
+        $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
+        return $pdf->stream();
+    }
+
     public function formMonitoring($code)
     {
         $data = $this->get($code, ['has_monitoring']);
@@ -176,19 +199,69 @@ class WorkOrderController extends Controller
         return Response::redirectBack($check);
     }
 
-    public function formMovement($code)
+    public function formDelivery($code)
     {
+        $data = $this->get($code);
+        return view(Views::form('delivery', config('page'), config('folder')))
+        ->with($this->share([
+            'model' => $data,
+            'detail' => $data->has_detail,
+            'order' => [$data->mask_so_code => $data->mask_so_code],
+            'customer' => [$data->mask_customer_id => $data->mask_customer_name],
+            'status' => TransactionStatus::getOptions(TransactionStatus::Process),
+        ]));
     }
 
-    public function doMovement()
+    public function doDelivery(WoDeliveryRequest $request, WoDeliveryService $service)
     {
+        $data = $service->update(self::$model, $request, $request->code);
+        return Response::redirectBack($data);
+    }
+
+    public function printDelivery($code)
+    {
+        $data = $this->get($code, ['has_customer', 'has_detail', 'has_detail.has_product']);
+
+        $passing = [
+            'master' => $data,
+            'detail' => $data->has_detail,
+        ];
+        
+        $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
+        return $pdf->stream();
     }
 
     public function formReceive($code)
     {
+        $data = $this->get($code);
+        return view(Views::form('receive', config('page'), config('folder')))
+        ->with($this->share([
+            'model' => $data,
+            'detail' => $data->has_detail,
+            'order' => [$data->mask_so_code => $data->mask_so_code],
+            'customer' => [$data->mask_customer_id => $data->mask_customer_name],
+            'status' => TransactionStatus::getOptions([
+                TransactionStatus::Delivery, TransactionStatus::Complete
+            ]),
+        ]));
     }
 
-    public function doReceive()
+    public function doReceive(WoReceiveRequest $request, WoReceiveService $service)
     {
+        $data = $service->update(self::$model, $request, $request->code);
+        return Response::redirectBack($data);
+    }
+
+    public function printReceive($code)
+    {
+        $data = $this->get($code, ['has_customer', 'has_detail', 'has_detail.has_product']);
+
+        $passing = [
+            'master' => $data,
+            'detail' => $data->has_detail,
+        ];
+        
+        $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
+        return $pdf->stream();
     }
 }

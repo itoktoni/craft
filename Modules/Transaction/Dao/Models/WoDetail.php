@@ -11,10 +11,9 @@ use Modules\Master\Dao\Models\Supplier;
 class WoDetail extends Model
 {
     protected $table = 'wo_detail';
-    protected $primaryKey = 'wo_detail_id';
+    protected $primaryKey = 'wo_detail_wo_code';
 
     protected $fillable = [
-        'wo_detail_id',
         'wo_detail_wo_code',
         'wo_detail_so_code',
         'wo_detail_notes',
@@ -24,12 +23,14 @@ class WoDetail extends Model
         'wo_detail_qty',
         'wo_detail_price',
         'wo_detail_total',
+        'wo_detail_delivery',
+        'wo_detail_receive',
     ];
 
     public $with = ['has_product'];
 
     public $timestamps = false;
-    public $incrementing = true;
+    public $incrementing = false;
     
     public function mask_so_code()
     {
@@ -144,6 +145,36 @@ class WoDetail extends Model
     public function getMaskPriceAttribute()
     {
         return $this->{$this->mask_price()};
+    }
+
+    public function mask_sent()
+    {
+        return 'wo_detail_sent';
+    }
+
+    public function setMaskSentAttribute($value)
+    {
+        $this->attributes[$this->mask_deliver()] = $value;
+    }
+
+    public function getMaskSentAttribute()
+    {
+        return $this->{$this->mask_sent()};
+    }
+
+    public function mask_receive()
+    {
+        return 'wo_detail_receive';
+    }
+
+    public function setMaskReceiveAttribute($value)
+    {
+        $this->attributes[$this->mask_receive()] = $value;
+    }
+
+    public function getMaskReceiveAttribute()
+    {
+        return $this->{$this->mask_receive()};
     }
     
     public function mask_total()

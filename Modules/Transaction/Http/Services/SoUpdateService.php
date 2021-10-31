@@ -15,14 +15,18 @@ class SoUpdateService extends UpdateService
     public function update(CrudInterface $repository, $data, $code)
     {
         $check = $repository->updateRepository($data->all(), $code);
-        SoDetail::upsert($data['detail'], [
-            SoDetailFacades::mask_so_code(),
-            SoDetailFacades::mask_product_id(),
-        ], [
-            SoDetailFacades::mask_qty(),
-            SoDetailFacades::mask_price(),
-            SoDetailFacades::mask_total(),
-        ]);
+        SoDetail::upsert(
+            $data['detail'],
+            [
+                SoDetailFacades::mask_so_code(),
+                SoDetailFacades::mask_product_id(),
+            ],
+            [
+                SoDetailFacades::mask_qty(),
+                SoDetailFacades::mask_price(),
+                SoDetailFacades::mask_total(),
+            ]
+        );
 
         if ($check['status']) {
             Alert::update();

@@ -46,9 +46,12 @@ class Wo extends Model
         'wo_code_invoice',
         'wo_customer_id',
         'wo_supplier_id',
+        'wo_location_id',
         'wo_status',
         'wo_notes_internal',
         'wo_notes_external',
+        'wo_notes_delivery',
+        'wo_notes_receive',
         'wo_discount_name',
         'wo_discount_value',
         'wo_sum_value',
@@ -140,6 +143,26 @@ class Wo extends Model
         return $this->has_supplier->supplier_name ?? '';
     }
 
+    public function mask_location_id()
+    {
+        return 'wo_location_id';
+    }
+
+    public function setMaskLocationIdAttribute($value)
+    {
+        $this->attributes[$this->mask_location_id()] = $value;
+    }
+
+    public function getMaskLocationIdAttribute()
+    {
+        return $this->{$this->mask_location_id()};
+    }
+
+    public function getMaskLocationNameAttribute()
+    {
+        return $this->has_location->location_name ?? '';
+    }
+
     public function mask_total()
     {
         return 'wo_sum_total';
@@ -205,14 +228,19 @@ class Wo extends Model
         return 'wo_customer_id';
     }
 
-    public function setCustomerIdAttribute($value)
+    public function setMaskCustomerIdAttribute($value)
     {
         $this->attributes[$this->mask_customer_id()] = $value;
     }
 
-    public function getCustomerIdAttribute()
+    public function getMaskCustomerIdAttribute()
     {
         return $this->{$this->mask_customer_id()};
+    }
+
+    public function getMaskCustomerNameAttribute()
+    {
+        return $this->has_customer->name ?? '';
     }
 
     public function mask_created_at()

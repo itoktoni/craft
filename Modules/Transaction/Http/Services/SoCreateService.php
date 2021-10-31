@@ -9,6 +9,8 @@ use Modules\Transaction\Dao\Models\SalesDetail;
 use Modules\System\Dao\Interfaces\CrudInterface;
 use Modules\System\Http\Services\CreateService;
 use Modules\System\Plugins\Alert;
+use Modules\Transaction\Dao\Facades\JoDetailFacades;
+use Modules\Transaction\Dao\Facades\JoFacades;
 use Modules\Transaction\Dao\Facades\SoDetailFacades;
 use Modules\Transaction\Dao\Facades\WoDetailFacades;
 use Modules\Transaction\Dao\Facades\WoFacades;
@@ -23,6 +25,8 @@ class SoCreateService extends CreateService
             SoDetailFacades::insert($data['detail']);
             WoFacades::insert($data['wo']);
             WoDetailFacades::insert($data['wo_detail']);
+            JoFacades::create($data['jo']);
+            JoDetailFacades::insert($data['jo_detail']);
 
             if(isset($check['status']) && $check['status']){
 

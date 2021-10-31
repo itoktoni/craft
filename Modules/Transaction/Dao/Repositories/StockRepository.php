@@ -13,7 +13,11 @@ class StockRepository extends Stock implements CrudInterface
     public function dataRepository()
     {
         $list = Helper::dataColumn($this->datatable);
-        return $this->select($list)->joinRelationship('branch')->joinRelationship('product');
+        return $this->select($list)
+        ->joinRelationship('has_product')
+        ->joinRelationship('has_warehouse')
+        ->joinRelationship('has_customer')
+        ->joinRelationship('has_location');
     }
 
     public function saveRepository($request)

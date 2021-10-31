@@ -66,9 +66,4 @@ class MovementDetail extends Model
     {
         return $this->{$this->qty()};
     }
-
-    public function product()
-    {
-        return $this->hasOne(Product::class, ProductFacades::getKeyName(), $this->product_id());
-    }
 }

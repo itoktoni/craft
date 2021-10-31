@@ -43,10 +43,14 @@ Route::group(
                     foreach ($cache_query as $route) {
                         $link = $route->system_action_link . '/{code}';
 
-                        if (in_array($route->system_action_function, $method) || strpos($route->system_action_code, 'report') !== false  || strpos($route->system_action_code, 'do') !== false) {
+                        if (in_array($route->system_action_function, $method) || strpos($route->system_action_code, 'report') !== false  || strpos($route->system_action_code, 'do') !== false || strpos($route->system_action_code, 'list') !== false) {
 
                             $link = $route->system_action_link;
                         }
+
+                        // if(strpos($route->system_action_code, 'print') !== false){
+                        //     dd($link);
+                        // }
                         
                         $path = $route->system_action_path . '@' . Str::camel($route->system_action_function);
                         Route::match($route->system_action_method, $link, $path)->name($route->system_action_code);
@@ -129,34 +133,6 @@ Route::get('reboot', [TeamController::class, 'reset_routing'])->name('reboot');
 
 Route::get('/', function () {
 
-    $middlewareClosure = function ($middleware) {
-        return $middleware instanceof Closure ? 'Closure' : $middleware;
-    };
-
-    $routes = collect(Route::getRoutes())->mapWithKeys(function($map){
-        $check = $map->getName();
-        if(Str::of($check)->contains('api')){
-            return [$map->getName() => $map];
-        }
-        return [];
-    });
-
-    foreach (config('pretty-routes.hide_matching') as $regex) {
-        $routes = $routes->filter(function ($value, $key) use ($regex) {
-            return !preg_match($regex, $value->uri());
-        });
-    }
-
-    $mapping = Cache::get('routing')->where('system_action_api', 1)
-    
-        ->mapToGroups(function ($model) {
-            return [$model->system_action_controller => $model];
-        });
-
-    return view(Views::form('documentation', 'home'), [
-        'routes' => $routes,
-        'middlewareClosure' => $middlewareClosure,
-        'mapping' => $mapping,
-    ]);
+    return redirect()->route('login');
 
 });
