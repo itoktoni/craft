@@ -168,7 +168,8 @@ class JobOrderController extends Controller
             'bank' => Views::option(new BankRepository(), false, true)
         ];
         
-        $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
+        // return view(Helper::setViewPrint(__FUNCTION__.'_jo', config('folder')));
+        $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__.'_jo', config('folder')), $passing);
         return $pdf->stream();
     }
 }
