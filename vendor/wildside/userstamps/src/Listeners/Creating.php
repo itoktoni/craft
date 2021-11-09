@@ -17,6 +17,7 @@ class Creating
         if (! $model->isUserstamping() || is_null($model->getCreatedByColumn())) {
             return;
         }
+
         if (is_null($model->{$model->getCreatedByColumn()})) {
             $model->{$model->getCreatedByColumn()} = Auth::id();
         }

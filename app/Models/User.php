@@ -80,7 +80,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeById($query, $id)
     {
         return $query->where($this->primaryKey, $id);
-    }  
+    }
 
     //mask enable
 
@@ -98,7 +98,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->{$this->mask_active()};
     }
-    
+
     public function getMaskActiveName($value)
     {
         return ActiveStatus::getDescription($this->mask_active);
@@ -118,5 +118,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->{$this->mask_group_user()};
     }
-
 }

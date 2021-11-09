@@ -56,7 +56,6 @@ class JobOrderController extends Controller
         if (auth()->user()->group_user == GroupUserStatus::Customer) {
 
             $customer = [auth()->user()->id => auth()->user()->name];
-            
         } else {
 
             $customer = Views::option(new TeamRepository());
@@ -167,8 +166,9 @@ class JobOrderController extends Controller
             'detail' => $data->has_detail,
             'bank' => Views::option(new BankRepository(), false, true)
         ];
-        
-        $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
+
+        // return view(Helper::setViewPrint(__FUNCTION__.'_jo', config('folder')));
+        $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__ . '_jo', config('folder')), $passing);
         return $pdf->stream();
     }
 }

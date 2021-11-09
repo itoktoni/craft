@@ -54,7 +54,6 @@ class SalesOrderController extends Controller
         if (auth()->user()->group_user == GroupUserStatus::Customer) {
 
             $customer = [auth()->user()->id => auth()->user()->name];
-            
         } else {
 
             $customer = Views::option(new TeamRepository());
@@ -157,7 +156,7 @@ class SalesOrderController extends Controller
             'detail' => $data->has_detail,
             'bank' => Views::option(new BankRepository(), false, true)
         ];
-        
+
         $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
         return $pdf->stream();
     }
@@ -165,8 +164,8 @@ class SalesOrderController extends Controller
     public function formPayment($code)
     {
         $data = $this->get($code);
-        $bank = Views::option(new BankRepository(),false, true)
-        ->pluck('bank_name', 'bank_name')->prepend('- Select Bank - ', '')->toArray();
+        $bank = Views::option(new BankRepository(), false, true)
+            ->pluck('bank_name', 'bank_name')->prepend('- Select Bank - ', '')->toArray();
 
         return view(Views::form(Helper::snake(__FUNCTION__), config('page'), config('folder')))
             ->with($this->share([
@@ -178,7 +177,7 @@ class SalesOrderController extends Controller
     }
 
     public function doPayment(PaymentRequest $request, CreateService $service, PaymentRepository $model)
-    {   
+    {
         $data = $service->save($model, $request);
         return Response::redirectBack($data);
     }
@@ -187,13 +186,13 @@ class SalesOrderController extends Controller
     {
         $data = $this->get($code);
         return view(Views::form('delivery', config('page'), config('folder')))
-        ->with($this->share([
-            'model' => $data,
-            'detail' => $data->has_detail,
-            'order' => [$data->mask_so_code => $data->mask_so_code],
-            'customer' => [$data->mask_customer_id => $data->mask_customer_name],
-            'status' => TransactionStatus::getOptions(TransactionStatus::Process),
-        ]));
+            ->with($this->share([
+                'model' => $data,
+                'detail' => $data->has_detail,
+                'order' => [$data->mask_so_code => $data->mask_so_code],
+                'customer' => [$data->mask_customer_id => $data->mask_customer_name],
+                'status' => TransactionStatus::getOptions(TransactionStatus::Process),
+            ]));
     }
 
     public function doDelivery(SoDeliveryRequest $request, SoDeliveryService $service)
@@ -210,9 +209,8 @@ class SalesOrderController extends Controller
             'master' => $data,
             'detail' => $data->has_detail,
         ];
-        
+
         $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
         return $pdf->stream();
     }
-
 }
