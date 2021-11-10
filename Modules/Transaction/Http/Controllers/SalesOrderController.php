@@ -189,9 +189,6 @@ class SalesOrderController extends Controller
             ->with($this->share([
                 'model' => $data,
                 'detail' => $data->has_detail,
-                'order' => [$data->mask_so_code => $data->mask_so_code],
-                'customer' => [$data->mask_customer_id => $data->mask_customer_name],
-                'status' => TransactionStatus::getOptions(TransactionStatus::Process),
             ]));
     }
 
@@ -207,6 +204,21 @@ class SalesOrderController extends Controller
 
         $passing = [
             'master' => $data,
+            'detail' => $data->has_detail,
+        ];
+
+        $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
+        return $pdf->stream();
+    }
+
+    public function printInvoice($code)
+    {
+        $data = $this->get($code, ['has_customer', 'has_detail', 'has_detail.has_product']);
+        $bank = Views::option(new BankRepository(), false, true);
+
+        $passing = [
+            'master' => $data,
+            'bank' => $bank,
             'detail' => $data->has_detail,
         ];
 

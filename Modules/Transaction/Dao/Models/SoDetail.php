@@ -21,6 +21,7 @@ class SoDetail extends Model
         'so_detail_supplier_id',
         'so_detail_product_price',
         'so_detail_qty',
+        'so_detail_sent',
         'so_detail_price',
         'so_detail_total',
     ];
@@ -113,6 +114,21 @@ class SoDetail extends Model
     public function getMaskQtyAttribute()
     {
         return $this->{$this->mask_qty()};
+    }
+
+    public function mask_sent()
+    {
+        return 'so_detail_sent';
+    }
+
+    public function setMaskSentAttribute($value)
+    {
+        $this->attributes[$this->mask_sent()] = $value;
+    }
+
+    public function getMaskSentAttribute()
+    {
+        return $this->{$this->mask_sent()};
     }
 
     public function mask_price()

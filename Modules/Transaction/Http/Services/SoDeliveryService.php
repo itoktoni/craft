@@ -9,6 +9,8 @@ use Modules\Transaction\Dao\Models\Stock;
 use Modules\System\Dao\Interfaces\CrudInterface;
 use Modules\System\Http\Services\UpdateService;
 use Modules\System\Plugins\Alert;
+use Modules\Transaction\Dao\Enums\TransactionStatus;
+use Modules\Transaction\Dao\Facades\SoFacades;
 
 class SoDeliveryService extends UpdateService
 {
@@ -18,13 +20,21 @@ class SoDeliveryService extends UpdateService
         SoDetail::upsert(
             $data['detail'],
             [
-                SoDetailFacades::mask_wo_code(),
+                SoDetailFacades::mask_so_code(),
                 SoDetailFacades::mask_product_id(),
             ],
             [
                 SoDetailFacades::mask_sent(),
             ]
         );
+
+        if($data[SoFacades::mask_status()] == TransactionStatus::Delivery){
+
+            foreach($data['detail'] as $detail){
+
+                StockFacades::where(StockFacades::mask_so_code(), $detail[ SoDetailFacades::mask_so_code()])->delete();
+            }
+        }
 
         if ($check['status']) {
             Alert::update();

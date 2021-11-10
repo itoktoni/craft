@@ -8,4 +8,7 @@
     @if (isset($actions['form_payment']))
     <a id="linkMenu" href="{{ route($module.'_form_payment', ['code' => $model->{$model->getKeyName()}]) }}" class="btn btn-xs btn-success">Payment</a>
     @endif
+    @if (isset($actions['do_delivery']))
+    <a id="linkMenu" href="{{ route($module.'_form_delivery', ['code' => $model->{$model->getKeyName()}]) }}" class="btn btn-xs btn-danger">Delivery</a>
+    @endif
 </div>

@@ -9,6 +9,7 @@ use Modules\Master\Dao\Repositories\ProductRepository;
 use Modules\System\Plugins\Helper;
 use Modules\Transaction\Dao\Enums\TransactionStatus;
 use Modules\Transaction\Dao\Facades\SalesDetailFacades;
+use Modules\Transaction\Dao\Facades\SoDetailFacades;
 use Modules\Transaction\Dao\Facades\StockFacades;
 use Modules\Transaction\Dao\Facades\WoDetailFacades;
 use Modules\Transaction\Dao\Facades\WoFacades;
@@ -46,6 +47,13 @@ class WoReceiveRequest extends FormRequest
             return $data;
         }); 
 
+        $order = collect($this->detail)->map(function ($item){
+            $data[SoDetailFacades::mask_so_code()] = $this->{WoFacades::mask_so_code()};
+            $data[SoDetailFacades::mask_product_id()] = $item['temp_id'];
+            $data[SoDetailFacades::mask_sent()] = Helper::filterInput($item['temp_receive']);
+            return $data;
+        }); 
+
         $stock = collect($this->detail)->map(function ($item){
 
             $warehouse = LocationFacades::find($this->wo_location_id);
@@ -62,6 +70,7 @@ class WoReceiveRequest extends FormRequest
         $this->merge([
             'detail' => array_values($map->toArray()),
             'stock' => array_values($stock->toArray()),
+            'order' => array_values($order->toArray()),
         ]);
 
     }

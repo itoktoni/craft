@@ -30,10 +30,10 @@
                         <div class="col-md-2 mt-xs pd-xs">
                             <div>
                                 <label style="cursor: pointer;" for="{{ $value }}">
-                                    <input type="checkbox" {{ in_array($value, $data_action) ? 'checked' : '' }}
+                                    <input type="checkbox" {{ in_array(Helper::snake($value), $data_action) ? 'checked' : '' }}
                                         name="actions[]" id="{{ $value }}" value="{{ $model->{$model->getKeyName()}.'_'.$value }}">
-                                    {{ ucwords(str_replace('_',' ',$value)) }}
-                                    <input type="hidden" name="list_action[]" value="{{ $value }}">
+                                    {{ Helper::functionToLabel($value) }}
+                                    <input type="hidden" name="list_action[]" value="{{ Helper::snake($value) }}">
                                 </label>
                             </div>
                         </div>

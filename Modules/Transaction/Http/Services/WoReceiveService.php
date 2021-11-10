@@ -9,6 +9,8 @@ use Modules\Transaction\Dao\Models\Stock;
 use Modules\System\Dao\Interfaces\CrudInterface;
 use Modules\System\Http\Services\UpdateService;
 use Modules\System\Plugins\Alert;
+use Modules\Transaction\Dao\Facades\SoDetailFacades;
+use Modules\Transaction\Dao\Models\SoDetail;
 
 class WoReceiveService extends UpdateService
 {
@@ -23,6 +25,17 @@ class WoReceiveService extends UpdateService
             ],
             [
                 WoDetailFacades::mask_receive(),
+            ]
+        );
+
+        SoDetail::upsert(
+            $data['order'],
+            [
+                SoDetailFacades::mask_so_code(),
+                SoDetailFacades::mask_product_id(),
+            ],
+            [
+                SoDetailFacades::mask_sent(),
             ]
         );
 

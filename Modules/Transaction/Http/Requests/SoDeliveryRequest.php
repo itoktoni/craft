@@ -39,7 +39,7 @@ class SoDeliveryRequest extends FormRequest
     {
         $map = collect($this->detail)->map(function ($item){
             $data_product = ProductFacades::singleRepository($item['temp_id']);
-            $data[SoDetailFacades::mask_wo_code()] = $this->code;
+            $data[SoDetailFacades::mask_so_code()] = $this->code;
             $data[SoDetailFacades::mask_product_id()] = $item['temp_id'];
             $data[SoDetailFacades::mask_sent()] = Helper::filterInput($item['temp_sent']);
             return $data;
