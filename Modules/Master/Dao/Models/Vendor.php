@@ -4,6 +4,7 @@ namespace Modules\Master\Dao\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\System\Plugins\Helper;
 use Wildside\Userstamps\Userstamps;
 
 class Vendor extends Model
@@ -18,7 +19,7 @@ class Vendor extends Model
         'vendor_npwp',
         'vendor_address',
         'vendor_description',
-        'vendor_image',
+        'vendor_logo',
     ];
 
     // public $with = ['module'];
@@ -35,4 +36,18 @@ class Vendor extends Model
         'vendor_name' => [true => 'Name'],
         'vendor_description' => [true => 'Description'],
     ];
+
+    public static function boot()
+    {
+        parent::saving(function ($model) {
+            $file_name = 'file';
+            if (request()->has($file_name)) {
+                $file = request()->file($file_name);
+                $name = Helper::uploadImage($file, Helper::getTemplate(__CLASS__));
+                $model->vendor_logo = $name;
+            }
+        });
+
+        parent::boot();
+    }
 }

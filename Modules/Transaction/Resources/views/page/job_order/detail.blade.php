@@ -27,7 +27,7 @@
         <div class="panel-body line">
             <div class="">
                 <div class="form-group {{ $errors->has('detail') ? 'has-error' : ''}}">
-                    <label class="col-md-1 control-label" for="inputDefault">Service</label>
+                    <label class="col-md-1 control-label" for="inputDefault">Charges</label>
                     <div class="col-md-3 {{ $errors->has('product') ? 'has-error' : ''}}">
                         {{ Form::select('', $product, null, ['class'=> 'form-control', 'id' => 'product']) }}
                     </div>

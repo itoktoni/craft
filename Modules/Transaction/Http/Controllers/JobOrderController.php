@@ -26,6 +26,8 @@ use Modules\Master\Dao\Repositories\BankRepository;
 use Modules\Master\Dao\Repositories\PaymentRepository;
 use Modules\Master\Dao\Repositories\ServiceRepository;
 use Modules\Master\Dao\Repositories\TruckingRepository;
+use Modules\Master\Dao\Repositories\UnitRepository;
+use Modules\Master\Dao\Repositories\VendorRepository;
 use Modules\System\Http\Services\CreateService;
 use Modules\Transaction\Dao\Enums\ServiceStatus;
 use Modules\Transaction\Dao\Repositories\JoRepository;
@@ -51,17 +53,22 @@ class JobOrderController extends Controller
     {
         $product = Views::option(new ServiceRepository());
         $trucking = Views::option(new TruckingRepository());
+        $vendor = Views::option(new VendorRepository());
+        $unit = Views::option(new UnitRepository());
         $status = ServiceStatus::getOptions();
 
         if (auth()->user()->group_user == GroupUserStatus::Customer) {
 
             $customer = [auth()->user()->id => auth()->user()->name];
+
         } else {
 
             $customer = Views::option(new TeamRepository());
         }
 
         $view = [
+            'unit' => $unit,
+            'vendor' => $vendor,
             'trucking' => $trucking,
             'product' => $product,
             'status' => $status,
@@ -167,7 +174,7 @@ class JobOrderController extends Controller
             'bank' => Views::option(new BankRepository(), false, true)
         ];
 
-        // return view(Helper::setViewPrint(__FUNCTION__.'_jo', config('folder')));
+        // return view(Helper::setViewPrint(__FUNCTION__.'_jo', config('folder')), $passing);
         $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__ . '_jo', config('folder')), $passing);
         return $pdf->stream();
     }

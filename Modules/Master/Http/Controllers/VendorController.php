@@ -3,6 +3,7 @@
 namespace Modules\Master\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Modules\Master\Dao\Enums\VendorType;
 use Modules\Master\Dao\Repositories\VendorRepository;
 use Modules\System\Http\Requests\DeleteRequest;
 use Modules\System\Http\Requests\GeneralRequest;
@@ -29,7 +30,10 @@ class VendorController extends Controller
 
     private function share($data = [])
     {
-        $view = [];
+        $status = VendorType::getOptions();
+        $view = [
+            'status' => $status
+        ];
         return array_merge($view, $data);
     }
 

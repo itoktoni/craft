@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
 use Modules\Master\Dao\Facades\PaymentFacades;
 use Modules\Master\Dao\Facades\TruckingFacades;
+use Modules\Master\Dao\Facades\VendorFacades;
 use Modules\Master\Dao\Models\Payment;
 use Modules\Master\Dao\Models\Trucking;
 use Modules\System\Dao\Facades\TeamFacades;
@@ -31,27 +32,20 @@ class Jo extends Model
 
     protected $fillable = [
         'jo_code',
+        'jo_ref_code',
         'jo_so_code',
+        'jo_inv_code',
+        'jo_invoice_date',
         'jo_created_at',
         'jo_updated_at',
-        'jo_processed_at',
-        'jo_delivered_at',
         'jo_deleted_at',
-        'jo_processed_at',
-        'jo_delivered_at',
         'jo_created_by',
         'jo_updated_by',
         'jo_deleted_by',
-        'jo_code_delivery',
-        'jo_code_invoice',
         'jo_customer_id',
-        'jo_trucking_id',
-        'jo_location_id',
+        'jo_code_invoice',
         'jo_status',
-        'jo_notes_internal',
-        'jo_notes_external',
-        'jo_notes_delivery',
-        'jo_notes_receive',
+        'jo_notes',
         'jo_discount_name',
         'jo_discount_value',
         'jo_sum_value',
@@ -59,13 +53,32 @@ class Jo extends Model
         'jo_sum_total',
         'jo_etd',
         'jo_eta',
-        'jo_mater_bl',
+        'jo_master_bl',
         'jo_total_weight',
         'jo_delivery_notes',
-        'jo_delviery_to',
+        'jo_delivery_to',
         'jo_delivery_pickup',
         'jo_trucking_id',
-
+        'jo_vessel',
+        'jo_port_of_delivery',
+        'jo_port_of_loading',
+        'jo_shipper_id',
+        'jo_shipper_name',
+        'jo_shipper_address',
+        'jo_consignee_id',
+        'jo_consignee_name',
+        'jo_consignee_address',
+        'jo_agent_id',
+        'jo_agent_name',
+        'jo_agent_address',
+        'jo_notify_party_id',
+        'jo_notify_party_name',
+        'jo_notify_party_address',
+        'jo_receiver_id',
+        'jo_receiver_name',
+        'jo_receiver_address',
+        'jo_receiver_npwp',
+        'jo_unit_code',
     ];
 
     public $with = ['has_detail', 'has_trucking'];
@@ -96,8 +109,11 @@ class Jo extends Model
         'jo_status' => [true => 'Status', 'width' => 60, 'class' => 'text-center', 'status' => 'status'],
     ];
 
+    protected $dates = ['jo_invoice_date'];
+
     protected $casts = [
-        'jo_date_order' => 'datetime:Y-m-d',
+        'jo_eta' => 'datetime:Y-m-d',
+        'jo_invoice_date' => 'datetime:Y-m-d',
         'jo_created_at' => 'datetime:Y-m-d',
     ];
 
@@ -331,6 +347,34 @@ class Jo extends Model
             if(empty($model->jo_eta)){
 				$model->jo_eta = null;
 			}
+
+
+            if($shipper = $model->jo_shipper_id){
+                $model->jo_shipper_name = VendorFacades::find($shipper)->vendor_name ?? '';
+                $model->jo_shipper_address = VendorFacades::find($shipper)->vendor_address ?? '';
+            }
+
+            if($consignee = $model->jo_consignee_id){
+                $model->jo_consignee_name = VendorFacades::find($consignee)->vendor_name ?? '';
+                $model->jo_consignee_address = VendorFacades::find($consignee)->vendor_address ?? '';
+            }
+
+            if($agent = $model->jo_agent_id){
+                $model->jo_agent_name = VendorFacades::find($agent)->vendor_name ?? '';
+                $model->jo_agent_address = VendorFacades::find($agent)->vendor_address ?? '';
+            }
+
+            if($receiver = $model->jo_receiver_id){
+                $model->jo_receiver_name = VendorFacades::find($receiver)->vendor_name ?? '';
+                $model->jo_receiver_address = VendorFacades::find($receiver)->vendor_address ?? '';
+                $model->jo_receiver_npwp = VendorFacades::find($receiver)->vendor_npwp ?? '';
+            }
+
+            if($notify_party = $model->jo_notify_party_id){
+                $model->jo_notify_party_name = VendorFacades::find($notify_party)->vendor_name ?? '';
+                $model->jo_notify_party_address = VendorFacades::find($notify_party)->vendor_address ?? '';
+            }
+
 		});
 	}
 }

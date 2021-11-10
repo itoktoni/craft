@@ -10,12 +10,12 @@ class VendorType extends Enum
 {
     use StatusTrait;
 
-    const TYPE       =  null;
-    const Receiver            =  1;
-    const Shipper           =  2;
-    const Consignee           =  2;
-    const Agent           =  2;
-    const Notify           =  2;
+    const TYPE                  =  null;
+    const Receiver              =  1;
+    const Shipper               =  2;
+    const Consignee             =  3;
+    const Agent                 =  4;
+    const NotifyParty                =  5;
 
     public static function colors()
     {
@@ -25,7 +25,7 @@ class VendorType extends Enum
             self::Shipper => ColorType::Danger,
             self::Consignee => ColorType::Danger,
             self::Agent => ColorType::Danger,
-            self::Notify => ColorType::Danger,
+            self::NotifyParty => ColorType::Danger,
         ];
     }
 
