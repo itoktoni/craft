@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="panel-body">
-        {!! Form::model($model, ['route'=>[$module.'_do_payment'],'class'=>'form-horizontal','files'=>true]) !!}
+        {!! Form::model($model, ['route'=>[$module.'_post_payment'],'class'=>'form-horizontal','files'=>true]) !!}
         <div class="panel panel-default">
             <header class="panel-heading">
                 <h2 class="panel-title">{{ __('Payment') }} {{ __($form_name) }} : {{ $model->{$model->getKeyName()} }}
@@ -93,7 +93,7 @@
             <div class="text-right action-wrapper">
                 <a id="linkMenu" href="{!! route($route_index) !!}" class="btn btn-warning">{{ __('Back') }}</a>
                 <a id="linkMenu" href="{!! route('transaction_sales_order_print_order', ['code' => $model->{$model->getKeyName()}]) !!}" target="_blank" class="btn btn-danger">{{ __('Print') }}</a>
-                @isset($actions['update'])
+                @isset($actions['post_payment'])
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                 @endisset
             </div>

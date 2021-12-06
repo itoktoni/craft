@@ -36,16 +36,16 @@ table tr td {
                     <br>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_receiver_name ?? '' }}
+                        {{ $job_order->jo_receiver_name ?? '' }}
                     </p>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_receiver_address ?? '' }}
+                        {{ $job_order->jo_receiver_address ?? '' }}
                     </p>
                     <br>
                     <p
                         style='position:absolute;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_receiver_npwp ?? '' }}
+                        {{ $job_order->jo_receiver_npwp ?? '' }}
                     </p>
                 </td>
                 <td
@@ -63,7 +63,8 @@ Description automatically generated">
                     style="width:148.25pt;border:solid windowtext 1.0pt;border-left:  none;padding:0in 5.4pt 0in 5.4pt;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;'>
-                        PT. MULTI PRATAMA EKSPRES</p>
+                        PT. MULTI PRATAMA EKSPRES
+                    </p>
                 </td>
             </tr>
             <tr>
@@ -84,7 +85,7 @@ Description automatically generated">
                     style="width: 148.25pt;border-top: none;border-bottom: none;border-left: none;border-image: initial;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        : {{ $master->jo_inv_code ?? '' }}</p>
+                        : {{ $job_order->jo_code ?? '' }}</p>
                 </td>
             </tr>
             <tr>
@@ -97,7 +98,7 @@ Description automatically generated">
                     style="width: 148.25pt;border-top: none;border-bottom: none;border-left: none;border-image: initial;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        : {{ $master->jo_ref_code ?? '' }}</p>
+                        : {{ $job_order->jo_ref_code ?? '' }}</p>
                 </td>
             </tr>
             <tr>
@@ -111,7 +112,7 @@ Description automatically generated">
                     style="width: 148.25pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        : {{ $master->jo_invoice_date ? $master->jo_invoice_date->format('d F Y') : '' }}</p>
+                        : {{ $job_order->jo_invoice_date ? $job_order->jo_invoice_date->format('d F Y') : '' }}</p>
                 </td>
             </tr>
             <tr>
@@ -124,11 +125,11 @@ Description automatically generated">
                     <br>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_shipper_name ?? '' }}
+                        {{ $job_order->jo_shipper_name ?? '' }}
                     </p>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_shipper_address ?? '' }}
+                        {{ $job_order->jo_shipper_address ?? '' }}
                     </p>
                 </td>
                 <td colspan="2"
@@ -140,11 +141,11 @@ Description automatically generated">
                     <br>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_notify_party_name ?? '' }}
+                        {{ $job_order->jo_notify_party_name ?? '' }}
                     </p>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_notify_party_address ?? '' }}
+                        {{ $job_order->jo_notify_party_address ?? '' }}
                     </p>
                 </td>
             </tr>
@@ -158,11 +159,11 @@ Description automatically generated">
                     <br>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_consignee_name ?? '' }}
+                        {{ $job_order->jo_consignee_name ?? '' }}
                     </p>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_consignee_address ?? '' }}
+                        {{ $job_order->jo_consignee_address ?? '' }}
                     </p>
                 </td>
                 <td colspan="2"
@@ -174,11 +175,11 @@ Description automatically generated">
                     <br>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_agent_name ?? '' }}
+                        {{ $job_order->jo_agent_name ?? '' }}
                     </p>
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        {{ $master->jo_agent_address ?? '' }}
+                        {{ $job_order->jo_agent_address ?? '' }}
                     </p>
                 </td>
             </tr>
@@ -187,7 +188,7 @@ Description automatically generated">
                     style="width: 111.8pt;border-top: none;border-right: 1pt solid windowtext;border-bottom: none;border-image: initial;border-left: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        BL NO : {{ $master->jo_master_bl ?? '' }}</p>
+                        BL NO : {{ $job_order->jo_master_bl ?? '' }}</p>
                 </td>
 
                 <td style="width: 93.7pt;border: none;padding: 0in 5.4pt;vertical-align: top;">
@@ -199,7 +200,7 @@ Description automatically generated">
                     style="width: 148.25pt;border-top: none;border-bottom: none;border-left: none;border-image: initial;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        : {{ $master->jo_vessel ?? '' }}</p>
+                        : {{ $job_order->jo_vessel ?? '' }}</p>
                 </td>
             </tr>
             <tr>
@@ -207,7 +208,7 @@ Description automatically generated">
                     style="width: 111.8pt;border-top: none;border-right: 1pt solid windowtext;border-bottom: none;border-image: initial;border-left: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        POL : {{ $master->jo_port_of_loading ?? '' }}</p>
+                        POL : {{ $job_order->jo_port_of_loading ?? '' }}</p>
                 </td>
 
                 <td style="width: 93.7pt;border: none;padding: 0in 5.4pt;vertical-align: top;">
@@ -219,7 +220,7 @@ Description automatically generated">
                     style="width: 148.25pt;border-top: none;border-bottom: none;border-left: none;border-image: initial;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        : {{ $master->jo_eta ? $master->jo_eta->format('d F Y') : '' }}</p>
+                        : {{ $job_order->jo_eta ? $job_order->jo_eta->format('d F Y') : '' }}</p>
                 </td>
             </tr>
             <tr>
@@ -227,7 +228,7 @@ Description automatically generated">
                     style="width: 111.8pt;border-top: none;border-left: 1pt solid windowtext;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        POD : {{ $master->jo_port_of_delivery ?? '' }}</p>
+                        POD : {{ $job_order->jo_port_of_delivery ?? '' }}</p>
                 </td>
 
                 <td
@@ -240,7 +241,7 @@ Description automatically generated">
                     style="width: 148.25pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        : {{ $master->jo_total_weight ?? '' }} {{ $master->jo_unit_code ?? '' }}</p>
+                        : {{ $job_order->jo_total_weight ?? '' }} {{ $job_order->jo_unit_code ?? '' }}</p>
                 </td>
             </tr>
             <tr>
@@ -268,8 +269,8 @@ Description automatically generated">
                         &nbsp;</p>
                 </td>
             </tr>
-            @if($detail)
-            @foreach($detail as $item)
+            @if($job_detail)
+            @foreach($job_detail as $item)
             <tr>
                 <td colspan="4"
                     style="width: 319.25pt;border-top: none;border-left: 1pt solid windowtext;border-bottom: 0pt solid windowtext;border-right: none;padding: 0in 5.4pt;vertical-align: top;">
@@ -300,7 +301,7 @@ Description automatically generated">
                     style="width: 148.25pt;border-top: 1pt solid windowtext;;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:right;'>
-                        IDR {{ Helper::createRupiah($master->mask_value) ?? '' }}
+                        IDR {{ Helper::createRupiah($job_order->mask_value) ?? '' }}
                     </p>
                 </td>
             </tr>

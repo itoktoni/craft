@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 use Modules\Master\Dao\Facades\PaymentFacades;
 use Modules\Master\Dao\Facades\SupplierFacades;
 use Modules\Master\Dao\Models\Payment;
@@ -23,7 +24,7 @@ use Wildside\Userstamps\Userstamps;
 
 class Wo extends Model
 {
-    use SoftDeletes, Userstamps, PowerJoins;
+    use SoftDeletes, Userstamps, PowerJoins, FilterQueryString;
 
     protected $table = 'wo';
     protected $primaryKey = 'wo_code';
@@ -61,6 +62,11 @@ class Wo extends Model
 
     public $with = ['has_detail', 'has_supplier'];
 
+    protected $filters = [
+        'wo_supplier_id',
+        'wo_customer_id'
+    ];
+
     public $timestamps = true;
     public $incrementing = false;
     public $rules = [
@@ -79,6 +85,8 @@ class Wo extends Model
     public $datatable = [
         'wo_so_code' => [true => 'Sales Code'],
         'wo_code' => [true => 'Wo Code'],
+        'wo_customer_id' => [false => 'Supplier Name'],
+        'wo_supplier_id' => [false => 'Supplier Name'],
         'supplier_name' => [true => 'Supplier Name'],
         'name' => [true => 'Customer'],
         'wo_created_at' => [true => 'Date', 'width' => 55],
@@ -176,6 +184,36 @@ class Wo extends Model
     public function getMaskTotalAttribute()
     {
         return $this->{$this->mask_total()};
+    }
+
+    public function mask_external()
+    {
+        return 'wo_notes_external';
+    }
+
+    public function setMaskExternalAttribute($value)
+    {
+        $this->attributes[$this->mask_external()] = $value;
+    }
+
+    public function getMaskExternalAttribute()
+    {
+        return $this->{$this->mask_external()};
+    }
+
+    public function mask_internal()
+    {
+        return 'wo_notes_internal';
+    }
+
+    public function setMaskInternalAttribute($value)
+    {
+        $this->attributes[$this->mask_internal()] = $value;
+    }
+
+    public function getMaskInternalAttribute()
+    {
+        return $this->{$this->mask_internal()};
     }
 
     public function getMaskTotalFormatAttribute()

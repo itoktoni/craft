@@ -43,14 +43,10 @@ Route::group(
                     foreach ($cache_query as $route) {
                         $link = $route->system_action_link . '/{code}';
 
-                        if (in_array($route->system_action_function, $method) || strpos($route->system_action_code, 'report') !== false  || strpos($route->system_action_code, 'do') !== false || strpos($route->system_action_code, 'list') !== false) {
+                        if (in_array($route->system_action_function, $method) || strpos($route->system_action_code, 'report') !== false  || strpos($route->system_action_code, 'post') !== false || strpos($route->system_action_code, 'list') !== false) {
 
                             $link = $route->system_action_link;
                         }
-
-                        // if(strpos($route->system_action_code, 'print') !== false){
-                        //     dd($link);
-                        // }
                         
                         $path = $route->system_action_path . '@' . Str::camel($route->system_action_function);
                         Route::match($route->system_action_method, $link, $path)->name($route->system_action_code);

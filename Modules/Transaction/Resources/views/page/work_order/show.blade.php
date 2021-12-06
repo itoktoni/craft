@@ -60,7 +60,7 @@
                                 <th class="text-left col-md-2">Message</th>
                                 <th class="text-left col-md-3">Created Date</th>
                                 <th class="text-left col-md-2">Created By</th>
-                                <th class="text-left col-md-2">Amount</th>
+                                <th class="text-right col-md-2">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,20 +88,42 @@
                                 <td data-title="Created By" class="col-lg-1">
                                     {{ $payment->has_user->name ?? '' }}
                                 </td>
-                                <td data-title="Amount" class=" col-lg-1">
+                                <td data-title="Amount" class="text-right col-lg-1">
                                     {{ Helper::createRupiah($payment->mask_approve) }}
                                 </td>
                             </tr>
                             @endforeach
-                            <tr>
-                                <td colspan="7">
-                                    <h5 class="text-left">Total</h5>
-                                </td>
-                                <td class="text-left">
-                                    {{ Helper::createRupiah($model->has_payment->sum('payment_value_approve')) }}</td>
-                            </tr>
+                            
                             @endif
                         </tbody>
+
+                        <tbody>
+                            <tr>
+                                <td data-title="Total Pembayaran" colspan="7" class="text-right">
+                                    <strong>Total Order</strong>
+                                </td>
+                                <td data-title="" class="text-right">
+                                    {{ Helper::createRupiah($model->mask_total) }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-title="Total Pembayaran" colspan="7" class="text-right">
+                                    <strong>Total Payment</strong>
+                                </td>
+                                <td data-title="" class="text-right">
+                                    {{ Helper::createRupiah($model->has_payment->sum('payment_value_approve')) }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-title="Total Pembayaran" colspan="7" class="text-right">
+                                    <strong>UnPaid </strong>
+                                </td>
+                                <td data-title="" class="text-right">
+                                    {{ Helper::createRupiah($model->has_payment->sum('payment_value_approve') - $model->mask_total) }}
+                                </td>
+                            </tr>
+                        </tbody>
+
                     </table>
                 </div>
             </div>

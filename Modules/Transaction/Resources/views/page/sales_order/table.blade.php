@@ -42,6 +42,7 @@
         @endisset
     </tbody>
 
+    
     <tbody>
         <tr>
             <td data-title="Sebelum Discount" colspan="4" class="text-right">
@@ -52,6 +53,7 @@
                 'readonly', 'class' => 'number form-control text-right']) !!}
             </td>
         </tr>
+        @if(auth()->user()->group_user == GroupUserStatus::Developer)
         <tr style="margin-bottom: 20px;">
             <td data-title="" class="text-left col-md-1 hide-xs">
                 <button value="Discount" type="button" class="btn btn-xs btn-success btn-block">Discount</button>
@@ -79,6 +81,8 @@
                 'readonly', 'class' => 'number form-control text-right']) !!}
             </td>
         </tr>
+        @endif
 
     </tbody>
+    
 </table>

@@ -612,7 +612,7 @@
                 <table>
                     <tr>
                         <td class="head">
-                            Tanggal Order
+                            Order Date
                         </td>
                         <td>
                         {{ $master->mask_created_at->format('d F Y') ?? '' }}
@@ -628,10 +628,10 @@
                     </tr>
                     <tr>
                         <td class="head">
-                            Contact Phone
+                            BL Number
                         </td>
                         <td>
-                            {{ $master->has_customer->phone ?? '' }}
+                            {{ $master->has_job->jo_master_bl ?? '' }}
                         </td>
                     </tr>
                 </table>
@@ -659,7 +659,7 @@
                 <tr class="contact">
                     <td colspan='8'>
                         <strong>
-                            {{ ucwords($master->has_customer->name) ?? '' }}
+                            {{ ucwords($master->has_customer->name) ?? '' }} {{ $master->so_company_name ? '('.$master->so_company_name.')' : '' }}
                         </strong>
                         <p>
                             {{ $master->has_customer->address ?? '' }} 
@@ -682,6 +682,10 @@
                             <strong style="font-size: 12px;">
                                 Down Payment {{ env('DOWN_PAYMENT') }}% sebesar : Rp {{ Helper::createRupiah($down_payment) }} ( <span style="font-style: italic;">{{ Helper::terbilang($down_payment) }} rupiah. </span>)
                             </strong>
+
+                            <p>
+                               <i>{{ env('NOTES_TRACKING') }}</i> 
+                            </p>
                         </p>
                     </td>
                 </tr>
@@ -781,6 +785,24 @@
                     </td>
                     <td class="total">
                         {{ Helper::createRupiah($grand_total) ?? '' }}
+                    </td>
+                </tr>
+                @if (!empty($payment))
+                <tr class="total_discount">
+                    <td class="product" colspan="7">
+                        Total Payment
+                    </td>
+                    <td class="total">
+                        {{ Helper::createRupiah($payment->sum('payment_value_approve')) ?? '' }}
+                    </td>
+                </tr>
+                @endif
+                <tr class="total_sumary">
+                    <td class="product" colspan="7">
+                        UnPaid
+                    </td>
+                    <td class="total">
+                        {{ Helper::createRupiah($grand_total - $payment->sum('payment_value_approve')) ?? '' }}
                     </td>
                 </tr>
 

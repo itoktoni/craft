@@ -99,7 +99,7 @@
         <div class="input-group">
         <input type="file" name="file" class="{{ $errors->has('payment_file') ? 'has-error' : ''}} btn btn-default btn-sm btn-block">
             <span class="input-group-addon">
-                <a class="text-primary" href="">Download</a>
+                <a target="_blank" class="text-primary" href="{{ isset($model) ? Helper::files('payment/'.$model->payment_file) : '' }}">Download</a>
             </span>
         </div>
         

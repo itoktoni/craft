@@ -1,6 +1,8 @@
 <?php
 
 use Kirschbaum\PowerJoins\PowerJoinsServiceProvider;
+use Modules\Master\Dao\Enums\PaymentModel;
+use Modules\Master\Dao\Enums\PaymentType;
 use Modules\System\Dao\Enums\ActionStatus;
 use Modules\System\Dao\Enums\GroupUserStatus;
 use Modules\System\Plugins\Views;
@@ -280,6 +282,8 @@ return [
         'Chrome' => Chrome::class,
         'ActionStatus' => ActionStatus::class,
         'TransactionStatus' => TransactionStatus::class,
+        'PaymentModel' => PaymentModel::class,
+        'PaymentType' => PaymentType::class,
         'GroupUserStatus' => GroupUserStatus::class,
         'PdfFacade' => Barryvdh\DomPDF\PdfFacade::class,
         'DotenvEditor' => Jackiedo\DotenvEditor\Facades\DotenvEditor::class,

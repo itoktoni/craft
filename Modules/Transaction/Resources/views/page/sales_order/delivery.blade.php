@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="panel-body">
-        {!! Form::model($model, ['route'=>[$module.'_do_delivery'],'class'=>'form-horizontal','files'=>true]) !!}
+        {!! Form::model($model, ['route'=>[$module.'_post_delivery'],'class'=>'form-horizontal','files'=>true]) !!}
         <div class="panel panel-default">
             <header class="panel-heading">
                 <h2 class="panel-title">{{ __('Delivery') }} {{ __($form_name) }} : {{ $model->{$model->getKeyName()} }}
@@ -67,10 +67,8 @@
                 <a id="linkMenu"
                     href="{!! route($module.'_print_delivery', ['code' => $model->{$model->getKeyName()}]) !!}"
                     target="_blank" class="btn btn-danger">{{ __('Print DO') }}</a>
-                <a id="linkMenu"
-                    href="{!! route($module.'_print_invoice', ['code' => $model->{$model->getKeyName()}]) !!}"
-                    target="_blank" class="btn btn-danger">{{ __('Invoice') }}</a>
-                @isset($actions['do_delivery'])
+                
+                @isset($actions['post_delivery'])
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                 @endisset
             </div>

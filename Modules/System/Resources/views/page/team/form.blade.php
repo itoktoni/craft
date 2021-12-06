@@ -37,3 +37,11 @@
         {{ Form::select('active', $status, null, ['class'=> 'form-control']) }}
     </div>
 </div>
+
+<div class="form-group">
+    <label class="col-md-2 control-label">{{ __('Company') }}</label>
+    <div class="col-md-4 {{ $errors->has('company') ? 'has-error' : ''}}">
+        {{ Form::select('company', $company, null, ['class'=> 'form-control']) }}
+        {!! $errors->first('company', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>

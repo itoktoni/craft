@@ -8,8 +8,6 @@ use DateTimeInterface;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Database\Eloquent\CastsInboundAttributes;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Casts\AsArrayObject;
-use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\InvalidCastException;
 use Illuminate\Database\Eloquent\JsonEncodingException;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -262,10 +260,6 @@ trait HasAttributes
 
             if ($attributes[$key] && $this->isClassSerializable($key)) {
                 $attributes[$key] = $this->serializeClassCastableAttribute($key, $attributes[$key]);
-            }
-
-            if ($this->isEnumCastable($key)) {
-                $attributes[$key] = isset($attributes[$key]) ? $attributes[$key]->value : null;
             }
 
             if ($attributes[$key] instanceof Arrayable) {
@@ -626,10 +620,6 @@ trait HasAttributes
                 return $this->asTimestamp($value);
         }
 
-        if ($this->isEnumCastable($key)) {
-            return $this->getEnumCastableAttributeValue($key, $value);
-        }
-
         if ($this->isClassCastable($key)) {
             return $this->getClassCastableAttributeValue($key, $value);
         }
@@ -663,24 +653,6 @@ trait HasAttributes
 
             return $value;
         }
-    }
-
-    /**
-     * Cast the given attribute to an enum.
-     *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return mixed
-     */
-    protected function getEnumCastableAttributeValue($key, $value)
-    {
-        if (is_null($value)) {
-            return;
-        }
-
-        $castType = $this->getCasts()[$key];
-
-        return $castType::from($value);
     }
 
     /**
@@ -791,12 +763,6 @@ trait HasAttributes
         // the connection grammar's date format. We will auto set the values.
         elseif ($value && $this->isDateAttribute($key)) {
             $value = $this->fromDateTime($value);
-        }
-
-        if ($this->isEnumCastable($key)) {
-            $this->setEnumCastableAttribute($key, $value);
-
-            return $this;
         }
 
         if ($this->isClassCastable($key)) {
@@ -915,18 +881,6 @@ trait HasAttributes
         } else {
             $this->classCastCache[$key] = $value;
         }
-    }
-
-    /**
-     * Set the value of an enum castable attribute.
-     *
-     * @param  string  $key
-     * @param  \BackedEnum  $value
-     * @return void
-     */
-    protected function setEnumCastableAttribute($key, $value)
-    {
-        $this->attributes[$key] = isset($value) ? $value->value : null;
     }
 
     /**
@@ -1267,17 +1221,6 @@ trait HasAttributes
     }
 
     /**
-     * Determine whether a value is Date / DateTime custom-castable for inbound manipulation.
-     *
-     * @param  string  $key
-     * @return bool
-     */
-    protected function isDateCastableWithCustomFormat($key)
-    {
-        return $this->hasCast($key, ['custom_datetime', 'immutable_custom_datetime']);
-    }
-
-    /**
      * Determine whether a value is JSON castable for inbound manipulation.
      *
      * @param  string  $key
@@ -1327,29 +1270,6 @@ trait HasAttributes
     }
 
     /**
-     * Determine if the given key is cast using an enum.
-     *
-     * @param  string  $key
-     * @return bool
-     */
-    protected function isEnumCastable($key)
-    {
-        if (! array_key_exists($key, $this->getCasts())) {
-            return false;
-        }
-
-        $castType = $this->getCasts()[$key];
-
-        if (in_array($castType, static::$primitiveCastTypes)) {
-            return false;
-        }
-
-        if (function_exists('enum_exists') && enum_exists($castType)) {
-            return true;
-        }
-    }
-
-    /**
      * Determine if the key is deviable using a custom class.
      *
      * @param  string  $key
@@ -1374,9 +1294,8 @@ trait HasAttributes
      */
     protected function isClassSerializable($key)
     {
-        return ! $this->isEnumCastable($key) &&
-            $this->isClassCastable($key) &&
-            method_exists($this->resolveCasterClass($key), 'serialize');
+        return $this->isClassCastable($key) &&
+            method_exists($this->parseCasterClass($this->getCasts()[$key]), 'serialize');
     }
 
     /**
@@ -1724,7 +1643,7 @@ trait HasAttributes
             return true;
         } elseif (is_null($attribute)) {
             return false;
-        } elseif ($this->isDateAttribute($key) || $this->isDateCastableWithCustomFormat($key)) {
+        } elseif ($this->isDateAttribute($key)) {
             return $this->fromDateTime($attribute) ===
                 $this->fromDateTime($original);
         } elseif ($this->hasCast($key, ['object', 'collection'])) {
@@ -1739,8 +1658,6 @@ trait HasAttributes
         } elseif ($this->hasCast($key, static::$primitiveCastTypes)) {
             return $this->castAttribute($key, $attribute) ===
                 $this->castAttribute($key, $original);
-        } elseif ($this->isClassCastable($key) && in_array($this->getCasts()[$key], [AsArrayObject::class, AsCollection::class])) {
-            return $this->fromJson($attribute) === $this->fromJson($original);
         }
 
         return is_numeric($attribute) && is_numeric($original)

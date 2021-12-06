@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Modules\Master\Dao\Repositories\CompanyRepository;
 use Modules\System\Dao\Enums\ActiveStatus;
-use Modules\System\Dao\Repositories\CompanyRepository;
 use Modules\System\Dao\Repositories\GroupUserRepository;
-use Modules\System\Dao\Repositories\HoldingRepository;
 use Modules\System\Dao\Repositories\TeamRepository;
 use Modules\System\Http\Requests\GeneralRequest;
 use Modules\System\Http\Requests\LoginRequest;
@@ -50,11 +49,13 @@ class TeamController extends Controller
     {
         $status = Helper::shareStatus(self::$model->status)->prepend('- Select Status -', '');
         $group = Helper::shareOption((new GroupUserRepository()));
+        $company = Views::option(new CompanyRepository());
 
         $view = [
             'key' => self::$model->getKeyName(),
             'status' => $status,
             'group' => $group,
+            'company' => $company,
         ];
 
         return array_merge($view, $data);
@@ -76,6 +77,9 @@ class TeamController extends Controller
         return $service
             ->setModel(self::$model)
             ->EditStatus([self::$model->mask_active() => ActiveStatus::class])
+            ->EditColumn([
+                'company' => 'mask_company_name'
+            ])
             ->make();
     }
 

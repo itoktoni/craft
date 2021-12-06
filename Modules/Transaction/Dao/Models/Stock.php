@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 use Modules\Master\Dao\Facades\LocationFacades;
 use Modules\Master\Dao\Facades\ProductFacades;
 use Modules\Master\Dao\Facades\WarehouseFacades;
@@ -17,7 +18,7 @@ use Wildside\Userstamps\Userstamps;
 
 class Stock extends Model
 {
-    use PowerJoins;
+    use PowerJoins, FilterQueryString;
     protected $table = 'stock';
     protected $primaryKey = 'stock_customer_id';
 
@@ -29,11 +30,27 @@ class Stock extends Model
         'stock_so_code',
         'stock_wo_code',
         'stock_qty',
+        'stock_created_by',
+        'stock_updated_by',
+        'stock_created_at',
+        'stock_updated_at',
+    ];
+
+    protected $filters = [
+        'stock_location_id',
+        'stock_product_id',
+        'stock_warehouse_id',
+        'stock_customer_id'
     ];
 
     // public $with = ['module'];
 
-    public $timestamps = false;
+    const CREATED_AT = 'stock_created_at';
+    const UPDATED_AT = 'stock_updated_at';
+    const CREATED_BY = 'stock_created_by';
+    const UPDATED_BY = 'stock_updated_by';
+
+    public $timestamps = true;
     public $incrementing = true;
     public $rules = [
         'stock_location_id' => 'required',

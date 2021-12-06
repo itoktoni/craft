@@ -24,6 +24,7 @@ class WoReceiveService extends UpdateService
                 WoDetailFacades::mask_product_id(),
             ],
             [
+                WoDetailFacades::mask_notes(),
                 WoDetailFacades::mask_receive(),
             ]
         );

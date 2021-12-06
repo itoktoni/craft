@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
 use Modules\Master\Dao\Facades\PaymentFacades;
+use Modules\Master\Dao\Facades\ProductFacades;
 use Modules\Master\Dao\Facades\SupplierFacades;
 use Modules\Master\Dao\Models\Payment;
+use Modules\Master\Dao\Models\Product;
 use Modules\Master\Dao\Models\Supplier;
 use Modules\System\Dao\Facades\TeamFacades;
 use Modules\System\Plugins\Helper;
@@ -37,6 +39,8 @@ class Monitoring extends Model
         'monitoring_status',
         'monitoring_notes',
         'monitoring_wo_code',
+        'monitoring_product_id',
+        'monitoring_so_code',
     ];
 
     // public $with = ['has_detail', 'has_supplier'];
@@ -97,6 +101,36 @@ class Monitoring extends Model
         return $this->{$this->mask_wo_code()};
     }
 
+    public function mask_so_code()
+    {
+        return 'monitoring_so_code';
+    }
+
+    public function setMaskSoCodeAttribute($value)
+    {
+        $this->attributes[$this->mask_so_code()] = $value;
+    }
+
+    public function getMaskSoCodeAttribute()
+    {
+        return $this->{$this->mask_so_code()};
+    }
+
+    public function mask_product_id()
+    {
+        return 'monitoring_product_id';
+    }
+
+    public function setMaskProductIdAttribute($value)
+    {
+        $this->attributes[$this->mask_product_id()] = $value;
+    }
+
+    public function getMaskProductIdAttribute()
+    {
+        return $this->{$this->mask_product_id()};
+    }
+
     public function mask_notes()
     {
         return 'monitoring_notes';
@@ -147,9 +181,9 @@ class Monitoring extends Model
         return $this->has_user->name ?? '';
     }
 
-    public function has_detail()
+    public function has_product()
     {
-        return $this->hasMany(WoDetail::class, WoDetailFacades::mask_monitoring_code(), WoFacades::getKeyName());
+        return $this->hasOne(Product::class, ProductFacades::getKeyName(), $this->mask_product_id());
     }
 
     public function has_user()

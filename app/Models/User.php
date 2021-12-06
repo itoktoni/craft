@@ -6,7 +6,10 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\Master\Dao\Facades\CompanyFacades;
+use Modules\Master\Dao\Models\Company;
 use Modules\System\Dao\Enums\ActiveStatus;
+use Modules\System\Dao\Facades\TeamFacades;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -36,8 +39,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'api_token',
         'token',
         'email_verified_at',
-        'area',
+        'company',
     ];
+
+    public $with = ['has_company'];
 
     protected $guarded = [];
 
@@ -74,6 +79,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name'          => [true => 'Name'],
         'email'         => [false => 'Email'],
         'group_user'    => [true => 'Group User'],
+        'company'       => [true => 'Company'],
         'active'        => [true => 'Active', 'width' => '100', 'class' => 'text-center'],
     ];
 
@@ -117,5 +123,30 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getMaskGroupUserAttribute()
     {
         return $this->{$this->mask_group_user()};
+    }
+
+    public function mask_company()
+    {
+        return 'company';
+    }
+
+    public function setMaskCompanyAttribute($value)
+    {
+        $this->attributes[$this->mask_company()] = $value;
+    }
+
+    public function getMaskCompanyAttribute()
+    {
+        return $this->{$this->mask_company()};
+    }
+
+    public function getMaskCompanyNameAttribute()
+    {
+        return $this->has_company->mask_name ?? '';
+    }
+
+    public function has_company()
+    {
+        return $this->hasOne(Company::class, CompanyFacades::getKeyName(), TeamFacades::mask_company());
     }
 }

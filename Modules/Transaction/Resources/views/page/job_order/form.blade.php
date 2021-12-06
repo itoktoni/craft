@@ -23,7 +23,7 @@
 
     {!! Form::label('name', __('Receiver'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
     <div class="col-md-4 col-sm-4 {{ $errors->has('jo_receiver_id') ? 'has-error' : ''}}">
-        {{ Form::select('jo_receiver_id', $vendor, null, ['class'=> 'form-control ']) }}
+        {{ Form::select('jo_receiver_id', $company, null, ['class'=> 'form-control ']) }}
         {!! $errors->first('jo_receiver_id', '<p class="help-block">:message</p>') !!}
     </div>
 
@@ -39,13 +39,13 @@
 
     {!! Form::label('name', __('Shipper'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
     <div class="col-md-4 col-sm-4 {{ $errors->has('jo_shipper_id') ? 'has-error' : ''}}">
-        {{ Form::select('jo_shipper_id', $vendor, null, ['class'=> 'form-control ']) }}
+        {{ Form::select('jo_shipper_id', $company, null, ['class'=> 'form-control ']) }}
         {!! $errors->first('jo_shipper_id', '<p class="help-block">:message</p>') !!}
     </div>
 
     {!! Form::label('name', __('Notify Party'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
     <div class="col-md-4 col-sm-4 {{ $errors->has('jo_notify_party_id') ? 'has-error' : ''}}">
-        {{ Form::select('jo_notify_party_id', $vendor, null, ['class'=> 'form-control ']) }}
+        {{ Form::select('jo_notify_party_id', $company, null, ['class'=> 'form-control ']) }}
         {!! $errors->first('jo_notify_party_id', '<p class="help-block">:message</p>') !!}
     </div>
 
@@ -55,13 +55,13 @@
 
     {!! Form::label('name', __('Consignee'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
     <div class="col-md-4 col-sm-4 {{ $errors->has('jo_consignee_id') ? 'has-error' : ''}}">
-        {{ Form::select('jo_consignee_id', $vendor, null, ['class'=> 'form-control ']) }}
+        {{ Form::select('jo_consignee_id', $company, null, ['class'=> 'form-control ']) }}
         {!! $errors->first('jo_consignee_id', '<p class="help-block">:message</p>') !!}
     </div>
 
     {!! Form::label('name', __('Agent'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
     <div class="col-md-4 col-sm-4 {{ $errors->has('jo_agent_id') ? 'has-error' : ''}}">
-        {{ Form::select('jo_agent_id', $vendor, null, ['class'=> 'form-control ']) }}
+        {{ Form::select('jo_agent_id', $company, null, ['class'=> 'form-control ']) }}
         {!! $errors->first('jo_agent_id', '<p class="help-block">:message</p>') !!}
     </div>
 

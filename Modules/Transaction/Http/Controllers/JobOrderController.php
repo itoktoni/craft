@@ -23,6 +23,7 @@ use Modules\Transaction\Dao\Enums\TransactionStatus;
 use Barryvdh\DomPDF\Facade as PDF;
 use Modules\Master\Dao\Enums\PaymentStatus;
 use Modules\Master\Dao\Repositories\BankRepository;
+use Modules\Master\Dao\Repositories\CompanyRepository;
 use Modules\Master\Dao\Repositories\PaymentRepository;
 use Modules\Master\Dao\Repositories\ServiceRepository;
 use Modules\Master\Dao\Repositories\TruckingRepository;
@@ -53,7 +54,7 @@ class JobOrderController extends Controller
     {
         $product = Views::option(new ServiceRepository());
         $trucking = Views::option(new TruckingRepository());
-        $vendor = Views::option(new VendorRepository());
+        $company = Views::option(new CompanyRepository());
         $unit = Views::option(new UnitRepository());
         $status = ServiceStatus::getOptions();
 
@@ -68,7 +69,7 @@ class JobOrderController extends Controller
 
         $view = [
             'unit' => $unit,
-            'vendor' => $vendor,
+            'company' => $company,
             'trucking' => $trucking,
             'product' => $product,
             'status' => $status,
@@ -169,8 +170,8 @@ class JobOrderController extends Controller
         $data = $this->get($code, ['has_customer', 'has_detail', 'has_detail.has_product']);
 
         $passing = [
-            'master' => $data,
-            'detail' => $data->has_detail,
+            'job_order' => $data,
+            'job_detail' => $data->has_detail,
             'bank' => Views::option(new BankRepository(), false, true)
         ];
 

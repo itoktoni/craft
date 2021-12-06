@@ -107,10 +107,12 @@ class AccessMiddleware
                 $group = $data_group->system_group_module_code;
             }
         } else {
+
             if (!$data_action && $action_code != 'home') {
                 abort(403);
             }
 
+            
             $groupping = $access->where('system_action_code', $action_code)->where('system_group_module_code', self::$groupAccess)->first();
             if ($groupping) {
                 $folder = $groupping->system_module_folder;

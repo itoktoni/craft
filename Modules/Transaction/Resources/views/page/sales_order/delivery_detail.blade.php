@@ -36,13 +36,7 @@
         @foreach (old('detail') ?? $detail as $item)
         <tr>
             <td data-title="ID Product">
-                @if(old('detail'))
-                <button id="delete" value="{{ $item['temp_id'] }}" type="button" class="btn btn-danger btn-xs btn-block">Delete {{ $item['temp_id'] }}</button>
-                @else
-                <a id="delete" value="{{ $item->mask_product_id }}" href="{{ route(config('module').'_delete', ['code' => $item->so_detail_id, 'detail' => $item->mask_product_id ]) }}" class="btn btn-danger btn-xs btn-block delete-{{ $item->mask_product_id }}">
-                    Delete {{ $item->mask_product_id }}
-                </a>
-                @endif
+                {{ $item->mask_product_id }}
                 <input type="hidden" value="{{ $item['temp_id'] ?? $item->mask_product_id }}" name="temp_id[]">
                 <input type="hidden" value="{{ $item['temp_id'] ?? $item->mask_product_id }}" name="detail[{{ $loop->index }}][temp_id]">
             </td>

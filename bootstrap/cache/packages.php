@@ -93,6 +93,17 @@
       'Curl' => 'Ixudra\\Curl\\Facades\\Curl',
     ),
   ),
+  'izniburak/laravel-auto-routes' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Buki\\AutoRoute\\AutoRouteServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'AutoRoute' => 'Buki\\AutoRoute\\AutoRouteFacade',
+    ),
+  ),
   'jackiedo/dotenv-editor' => 
   array (
     'providers' => 

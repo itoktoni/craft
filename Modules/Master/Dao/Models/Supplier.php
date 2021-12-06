@@ -31,4 +31,34 @@ class Supplier extends Model
         'supplier_name' => [true => 'Name'],
         'supplier_description' => [true => 'Description'],
     ];
+
+    public function mask_name()
+    {
+        return 'supplier_name';
+    }
+
+    public function setMaskNameAttribute($value)
+    {
+        $this->attributes[$this->mask_name()] = $value;
+    }
+
+    public function getMaskNameAttribute()
+    {
+        return $this->{$this->mask_name()};
+    }
+
+    public function mask_address()
+    {
+        return 'supplier_address';
+    }
+
+    public function setMaskAddressAttribute($value)
+    {
+        $this->attributes[$this->mask_address()] = $value;
+    }
+
+    public function getMaskAddressAttribute()
+    {
+        return $this->{$this->mask_address()};
+    }
 }

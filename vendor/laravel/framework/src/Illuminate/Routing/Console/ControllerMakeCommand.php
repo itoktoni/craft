@@ -2,15 +2,12 @@
 
 namespace Illuminate\Routing\Console;
 
-use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Console\GeneratorCommand;
 use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputOption;
 
 class ControllerMakeCommand extends GeneratorCommand
 {
-    use CreatesMatchingTest;
-
     /**
      * The console command name.
      *

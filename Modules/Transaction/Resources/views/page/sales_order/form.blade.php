@@ -13,7 +13,7 @@
     @else
     {!! Form::label('name', __('Last Status'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
     <div class="col-md-4 col-sm-4">
-        <button class="btn btn-default btn-block text-left">{{ TransactionStatus::getDescription($model->mask_status) }}</button>
+        <span class="btn btn-default btn-block text-left">{{ $model->mask_status ? TransactionStatus::getDescription($model->mask_status) : 'Create' }}</span>
     </div>
     @endif
 </div>

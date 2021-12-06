@@ -3,6 +3,7 @@
 namespace Modules\Transaction\Dao\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 use Modules\Master\Dao\Facades\ProductFacades;
 use Modules\Master\Dao\Facades\SupplierFacades;
 use Modules\Master\Dao\Models\Product;
@@ -10,6 +11,8 @@ use Modules\Master\Dao\Models\Supplier;
 
 class SoDetail extends Model
 {
+    use FilterQueryString;
+    
     protected $table = 'so_detail';
     protected $primaryKey = 'so_detail_so_code';
     protected $keyType = 'string';
@@ -24,6 +27,11 @@ class SoDetail extends Model
         'so_detail_sent',
         'so_detail_price',
         'so_detail_total',
+    ];
+
+    protected $filters = [
+        'so_company_id',
+        'so_customer_id'
     ];
 
     public $with = ['has_product'];

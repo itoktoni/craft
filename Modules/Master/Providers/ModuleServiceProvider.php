@@ -73,8 +73,8 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->bind('service_facades', function () {
             return new \Modules\Master\Dao\Repositories\ServiceRepository();
         });
-        $this->app->bind('vendor_facades', function () {
-            return new \Modules\Master\Dao\Repositories\VendorRepository();
+        $this->app->bind('company_facades', function () {
+            return new \Modules\Master\Dao\Repositories\CompanyRepository();
         });
     }
 

@@ -16,7 +16,18 @@ class SoDeliveryService extends UpdateService
 {
     public function update(CrudInterface $repository, $data, $code)
     {
-        $check = $repository->updateRepository($data->all(), $code);
+        if ($data[SoFacades::mask_status()] == TransactionStatus::Delivery) {
+
+            $data[SoFacades::mask_status()] = TransactionStatus::Finish;
+
+            foreach ($data['detail'] as $detail) {
+
+                $stock = StockFacades::where(StockFacades::mask_so_code(), $detail[SoDetailFacades::mask_so_code()])->first();
+                $stock->stock_qty = $stock->stock_qty - $detail['so_detail_sent'];
+                $stock->save();
+            }
+        }
+
         SoDetail::upsert(
             $data['detail'],
             [
@@ -28,13 +39,7 @@ class SoDeliveryService extends UpdateService
             ]
         );
 
-        if($data[SoFacades::mask_status()] == TransactionStatus::Delivery){
-
-            foreach($data['detail'] as $detail){
-
-                StockFacades::where(StockFacades::mask_so_code(), $detail[ SoDetailFacades::mask_so_code()])->delete();
-            }
-        }
+        $check = $repository->updateRepository($data->all(), $code);
 
         if ($check['status']) {
             Alert::update();

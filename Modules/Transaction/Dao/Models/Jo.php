@@ -6,29 +6,31 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 use Modules\Master\Dao\Facades\PaymentFacades;
 use Modules\Master\Dao\Facades\TruckingFacades;
-use Modules\Master\Dao\Facades\VendorFacades;
+use Modules\Master\Dao\Facades\CompanyFacades;
 use Modules\Master\Dao\Models\Payment;
 use Modules\Master\Dao\Models\Trucking;
 use Modules\System\Dao\Facades\TeamFacades;
 use Modules\System\Plugins\Helper;
 use Modules\Transaction\Dao\Facades\MonitoringFacades;
-use Modules\Transaction\Dao\Facades\SalesDetailFacades;
-use Modules\Transaction\Dao\Facades\SalesFacades;
-use Modules\Transaction\Dao\Facades\SoDetailFacades;
-use Modules\Transaction\Dao\Facades\SoFacades;
 use Modules\Transaction\Dao\Facades\JoDetailFacades;
 use Modules\Transaction\Dao\Facades\JoFacades;
 use Wildside\Userstamps\Userstamps;
 
 class Jo extends Model
 {
-    use SoftDeletes, Userstamps, PowerJoins;
+    use SoftDeletes, Userstamps, PowerJoins, FilterQueryString;
 
     protected $table = 'jo';
     protected $primaryKey = 'jo_code';
     protected $primaryType = 'string';
+
+    protected $filters = [
+        'jo_company_id',
+        'jo_customer_id'
+    ];
 
     protected $fillable = [
         'jo_code',
@@ -102,6 +104,7 @@ class Jo extends Model
         'jo_so_code' => [true => 'Sales Code'],
         'jo_code' => [true => 'Job Code'],
         'name' => [true => 'Customer'],
+        'jo_customer_id' => [false => 'Customer'],
         'jo_created_at' => [true => 'Date', 'width' => 55],
         'jo_sum_value' => [true => 'Value', 'width' => 60],
         'jo_sum_discount' => [true => 'Discount', 'width' => 60],
@@ -350,29 +353,29 @@ class Jo extends Model
 
 
             if($shipper = $model->jo_shipper_id){
-                $model->jo_shipper_name = VendorFacades::find($shipper)->vendor_name ?? '';
-                $model->jo_shipper_address = VendorFacades::find($shipper)->vendor_address ?? '';
+                $model->jo_shipper_name = CompanyFacades::find($shipper)->company_name ?? '';
+                $model->jo_shipper_address = CompanyFacades::find($shipper)->company_address ?? '';
             }
 
             if($consignee = $model->jo_consignee_id){
-                $model->jo_consignee_name = VendorFacades::find($consignee)->vendor_name ?? '';
-                $model->jo_consignee_address = VendorFacades::find($consignee)->vendor_address ?? '';
+                $model->jo_consignee_name = CompanyFacades::find($consignee)->company_name ?? '';
+                $model->jo_consignee_address = CompanyFacades::find($consignee)->company_address ?? '';
             }
 
             if($agent = $model->jo_agent_id){
-                $model->jo_agent_name = VendorFacades::find($agent)->vendor_name ?? '';
-                $model->jo_agent_address = VendorFacades::find($agent)->vendor_address ?? '';
+                $model->jo_agent_name = CompanyFacades::find($agent)->company_name ?? '';
+                $model->jo_agent_address = CompanyFacades::find($agent)->company_address ?? '';
             }
 
             if($receiver = $model->jo_receiver_id){
-                $model->jo_receiver_name = VendorFacades::find($receiver)->vendor_name ?? '';
-                $model->jo_receiver_address = VendorFacades::find($receiver)->vendor_address ?? '';
-                $model->jo_receiver_npwp = VendorFacades::find($receiver)->vendor_npwp ?? '';
+                $model->jo_receiver_name = CompanyFacades::find($receiver)->company_name ?? '';
+                $model->jo_receiver_address = CompanyFacades::find($receiver)->company_address ?? '';
+                $model->jo_receiver_npwp = CompanyFacades::find($receiver)->company_npwp ?? '';
             }
 
             if($notify_party = $model->jo_notify_party_id){
-                $model->jo_notify_party_name = VendorFacades::find($notify_party)->vendor_name ?? '';
-                $model->jo_notify_party_address = VendorFacades::find($notify_party)->vendor_address ?? '';
+                $model->jo_notify_party_name = CompanyFacades::find($notify_party)->company_name ?? '';
+                $model->jo_notify_party_address = CompanyFacades::find($notify_party)->company_address ?? '';
             }
 
 		});

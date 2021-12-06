@@ -29,7 +29,7 @@
     @if(auth()->user()->group_user != GroupUserStatus::Customer)
     {!! Form::label('name', __('Notes'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
     <div class="col-md-4 col-sm-4">
-        {!! Form::textarea('wo_notes_internal', null, ['class' => 'form-control', 'rows' => '3']) !!}
+        {!! Form::textarea('wo_notes_external', null, ['class' => 'form-control', 'rows' => '3']) !!}
     </div>
     @endif
 

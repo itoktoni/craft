@@ -6,10 +6,13 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 use Modules\Master\Dao\Facades\PaymentFacades;
 use Modules\Master\Dao\Models\Payment;
 use Modules\System\Dao\Facades\TeamFacades;
 use Modules\System\Plugins\Helper;
+use Modules\Transaction\Dao\Facades\JoFacades;
+use Modules\Transaction\Dao\Facades\MonitoringFacades;
 use Modules\Transaction\Dao\Facades\SalesDetailFacades;
 use Modules\Transaction\Dao\Facades\SalesFacades;
 use Modules\Transaction\Dao\Facades\SoDetailFacades;
@@ -19,7 +22,7 @@ use Wildside\Userstamps\Userstamps;
 
 class So extends Model
 {
-    use SoftDeletes, Userstamps, PowerJoins;
+    use SoftDeletes, Userstamps, PowerJoins, FilterQueryString;
 
     protected $table = 'so';
     protected $primaryKey = 'so_code';
@@ -48,6 +51,10 @@ class So extends Model
         'so_sum_value',
         'so_sum_discount',
         'so_sum_total',
+        'so_company_id',
+        'so_company_name',
+        'so_company_address',
+        'so_job_code',
     ];
 
     public $with = ['has_detail'];
@@ -70,11 +77,19 @@ class So extends Model
     public $datatable = [
         'so_code' => [true => 'Code'],
         'name' => [true => 'Customer'],
+        'so_company_id' => [false => 'Company'],
+        'so_customer_id' => [false => 'Company'],
+        'so_company_name' => [true => 'Company'],
         'so_created_at' => [true => 'Created At'],
         'so_sum_value' => [true => 'Total Value'],
         'so_sum_discount' => [true => 'Discount'],
         'so_sum_total' => [true => 'Grand Total'],
-        'so_status' => [true => 'Status', 'width' => 100, 'class' => 'text-center', 'status' => 'status'],
+        'so_status' => [true => 'Status', 'width' => 50, 'class' => 'text-center', 'status' => 'status'],
+    ];
+
+    protected $filters = [
+        'so_company_id',
+        'so_customer_id'
     ];
 
     protected $casts = [
@@ -172,6 +187,46 @@ class So extends Model
         return $this->{$this->mask_customer_id()};
     }
 
+    public function mask_company_id()
+    {
+        return 'so_company_id';
+    }
+
+    public function setCompanyIdAttribute($value)
+    {
+        $this->attributes[$this->mask_company_id()] = $value;
+    }
+
+    public function getCompanyIdAttribute()
+    {
+        return $this->{$this->mask_company_id()};
+    }
+
+    public function mask_jo_code()
+    {
+        return 'so_jo_code';
+    }
+
+    public function setJoCodeAttribute($value)
+    {
+        $this->attributes[$this->mask_jo_code()] = $value;
+    }
+
+    public function getJoCodeAttribute()
+    {
+        return $this->{$this->mask_jo_code()};
+    }
+
+    public function getCompanyNameAttribute()
+    {
+        return $this->so_company_name;
+    }
+    
+    public function getCompanyAddressAttribute()
+    {
+        return $this->so_company_address;
+    }
+
     public function mask_created_at()
     {
         return self::CREATED_AT;
@@ -194,11 +249,35 @@ class So extends Model
 
     public function has_customer()
     {
-        return $this->hasone(User::class, TeamFacades::getKeyName(), $this->mask_customer_id());
+        return $this->hasOne(User::class, TeamFacades::getKeyName(), $this->mask_customer_id());
+    }
+
+    public function has_job()
+    {
+        return $this->hasOne(Jo::class, JoFacades::mask_so_code(), $this->getKeyName());
     }
 
     public function has_payment()
     {
         return $this->hasMany(Payment::class, PaymentFacades::mask_reference(), $this->getKeyName());
+    }
+
+    public function has_monitoring()
+    {
+        return $this->hasMany(Monitoring::class, MonitoringFacades::mask_so_code(), $this->getKeyName());
+    }
+
+    public static function boot()
+    {
+        parent::saving(function ($model) {
+            $company = $model->has_customer->has_company ?? null;
+            if($company){
+                $model->so_company_id = $company->company_id;
+                $model->so_company_name = $company->company_name;
+                $model->so_company_address = $company->company_address;
+            }
+        });
+
+        parent::boot();
     }
 }

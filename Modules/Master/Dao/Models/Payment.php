@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 use Modules\Master\Dao\Enums\PaymentModel;
 use Modules\Master\Dao\Enums\PaymentStatus;
 use Modules\Master\Dao\Enums\PaymentType;
@@ -19,7 +20,7 @@ use Wildside\Userstamps\Userstamps;
 
 class Payment extends Model
 {
-    use SoftDeletes, Userstamps, PowerJoins;
+    use SoftDeletes, Userstamps, PowerJoins, FilterQueryString;
 
     protected $table = 'payment';
     protected $primaryKey = 'payment_id';
@@ -46,6 +47,11 @@ class Payment extends Model
         'payment_approved_at',
         'payment_deleted_at',
         'payment_date',
+    ];
+
+    protected $filters = [
+        'payment_model',
+        'payment_created_by',
     ];
 
     // public $with = ['has_order'];
@@ -78,7 +84,7 @@ class Payment extends Model
 
     public $searching = 'payment_person';
     public $datatable = [
-        'payment_id' => [false => 'Code', 'width' => 50],
+        'payment_id' => [true => 'Code', 'width' => 30],
         'payment_model' => [true => 'Model', 'width' => 100, 'class' => 'text-center'],
         'payment_bank_from' => [true => 'Bank From', 'width' => 50],
         'payment_bank_to' => [true => 'Bank To', 'width' => 50],
@@ -88,6 +94,8 @@ class Payment extends Model
         'payment_value_user' => [true => 'Value', 'width' => 50],
         'payment_value_approve' => [true => 'Approve', 'width' => 50],
         'payment_type' => [true => 'Type', 'width' => 50, 'class' => 'text-center'],
+        'payment_created_by' => [false => 'Type', 'width' => 50, 'class' => 'text-center'],
+        'payment_voucher' => [false => 'Type', 'width' => 50, 'class' => 'text-center'],
         'payment_status' => [true => 'Status', 'width' => 70, 'class' => 'text-center'],
     ];
 

@@ -4,8 +4,8 @@
             <th class="text-left col-md-1">ID</th>
             <th class="text-left col-md-4">Product Name</th>
             <th class="text-right col-md-1">Request</th>
-            <th class="text-right col-md-1">Sent</th>
             <th class="text-right col-md-1">Receive</th>
+            <th class="text-right col-md-3">Notes</th>
         </tr>
     </thead>
     <tbody class="markup">
@@ -24,11 +24,13 @@
                 <input type="text" tabindex="{{ $loop->iteration }}1" readonly name="detail[{{ $loop->index }}][temp_qty]" class="form-control input-sm text-right number temp_qty" value="{{ $item['temp_qty'] ?? $item->mask_qty }}">
 
             </td>
-            <td data-title="Sent" class="text-right col-lg-1">
-                <input type="text" tabindex="{{ $loop->iteration }}1" readonly name="detail[{{ $loop->index }}][temp_sent]" class="form-control input-sm text-right number temp_sent" value="{{ $item['temp_sent'] ?? $item->mask_sent }}">
-            </td> 
+          
             <td data-title="Receive" class="text-right col-lg-1">
                 <input type="text" tabindex="{{ $loop->iteration }}1" name="detail[{{ $loop->index }}][temp_receive]" class="form-control input-sm text-right number temp_receive" value="{{ $item['temp_receive'] ?? $item->mask_receive }}">
+            </td>
+
+            <td data-title="Notes" class="text-right col-lg-3">
+                <input type="text" tabindex="{{ $loop->iteration }}1" name="detail[{{ $loop->index }}][temp_notes]" class="form-control input-sm text-right number temp_notes" value="{{ $item['temp_notes'] ?? $item->mask_notes }}">
             </td>
         </tr>
         @endforeach

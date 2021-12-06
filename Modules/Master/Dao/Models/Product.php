@@ -62,6 +62,21 @@ class Product extends Model
         'product_description' => [false => 'Image'],
     ];
 
+    public function mask_name()
+    {
+        return 'product_name';
+    }
+
+    public function setMaskNameAttribute($value)
+    {
+        $this->attributes[$this->mask_name()] = $value;
+    }
+
+    public function getMaskNameAttribute()
+    {
+        return $this->{$this->mask_name()};
+    }
+
     public function mask_price()
     {
         return 'product_price';

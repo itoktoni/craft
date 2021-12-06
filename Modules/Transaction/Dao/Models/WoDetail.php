@@ -176,6 +176,21 @@ class WoDetail extends Model
     {
         return $this->{$this->mask_receive()};
     }
+
+    public function mask_notes()
+    {
+        return 'wo_detail_notes';
+    }
+
+    public function setMaskNotesAttribute($value)
+    {
+        $this->attributes[$this->mask_notes()] = $value;
+    }
+
+    public function getMaskNotesAttribute()
+    {
+        return $this->{$this->mask_notes()};
+    }
     
     public function mask_total()
     {

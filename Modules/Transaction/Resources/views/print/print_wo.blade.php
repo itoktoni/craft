@@ -612,7 +612,7 @@
                 <table>
                     <tr>
                         <td class="head">
-                            Tanggal Order
+                            Order Date
                         </td>
                         <td>
                         {{ $master->mask_created_at->format('d F Y') ?? '' }}
@@ -647,22 +647,22 @@
                 <tr>
                     <td align='left' colspan='8' valign='middle'>
                         <h1 id="headline">
-                            SALES ORDER
+                            WORK ORDER
                         </h1>
                     </td>
                 </tr>
                 <tr class="destination">
                     <td colspan='8'>
-                        <strong>Customer : </strong>
+                        <strong>Supplier : </strong>
                     </td>
                 </tr>
                 <tr class="contact">
                     <td colspan='8'>
                         <strong>
-                            {{ ucwords($master->has_customer->name) ?? '' }}
+                            {{ ucwords($master->has_supplier->mask_name) ?? '' }}
                         </strong>
                         <p>
-                            {{ $master->has_customer->address ?? '' }} 
+                            {{ $master->has_supplier->mask_address ?? '' }} 
                         </p>
                     </td>
                 </tr>
@@ -670,7 +670,7 @@
                     <td colspan="8">
                         <p>
                             @php
-                            $total_value = intval($detail->sum('so_detail_total'));
+                            $total_value = intval($detail->sum('wo_detail_total'));
                             $total_discount = $master->mask_discount;
                             $grand_total = intval($total_value - $total_discount);
                             $persentage = $grand_total * (env('DOWN_PAYMENT') / 100);
@@ -680,7 +680,7 @@
                             @endphp
 
                             <strong style="font-size: 12px;">
-                                Down Payment {{ env('DOWN_PAYMENT') }}% sebesar : Rp {{ Helper::createRupiah($down_payment) }} ( <span style="font-style: italic;">{{ Helper::terbilang($down_payment) }} rupiah. </span>)
+                               {{ $master->mask_external }}
                             </strong>
                         </p>
                     </td>
@@ -713,7 +713,7 @@
                             {{ $item->has_product->product_name ?? '' }}
                         </h1>
                         <p>
-                            <strong>Desc : </strong>{!! $item->has_product->mask_description ?? '' !!}
+                            <strong>Desc : </strong>{!! $item->has_product->product_description ?? '' !!}
                         </p>
                     </td>
                     <td class="price">
@@ -741,7 +741,7 @@
                         Total Product
                     </td>
                     <td class="qty">
-                        {{ $detail->sum('so_detail_qty') ?? '' }}
+                        {{ $detail->sum('wo_detail_qty') ?? '' }}
                     </td>
                     <td class="total">
                         {{ Helper::createRupiah($total_value) ?? '' }}
@@ -784,17 +784,27 @@
                     </td>
                 </tr>
 
+                @if (!empty($payment))
+                <tr class="total_discount">
+                    <td class="product" colspan="7">
+                        Total Payment
+                    </td>
+                    <td class="total">
+                        {{ Helper::createRupiah($payment->sum('payment_value_approve')) ?? '' }}
+                    </td>
+                </tr>
+                @endif
+                <tr class="total_sumary">
+                    <td class="product" colspan="7">
+                        UnPaid
+                    </td>
+                    <td class="total">
+                        {{ Helper::createRupiah($payment->sum('payment_value_approve') - $grand_total) ?? '' }}
+                    </td>
+                </tr>
+
             </table>
         </div>
-        <br>
-        <strong>The payment should be done to our bank account : </strong>
-        <br>
-        @foreach($bank as $account)
-        <ul>
-            <li>{{ $account->bank_name }} - {{ $account->bank_description }}</li>
-        </ul>
-        @endforeach
-       
       
 </body>
 

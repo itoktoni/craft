@@ -416,3 +416,34 @@
         border-bottom-color: #262b33
     }
 }
+
+@media screen and (max-width: 767px) {
+
+    .table-responsive{
+        border: unset !important;
+    }
+
+    #datatable_wrapper .pull-left{
+        float: unset !important;
+    }
+
+    #datatable_info{
+        width: 100% !important;
+        margin-left:unset !important;
+        border: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    #datatable_paginate{
+        width: 100% !important;
+        margin-left:unset !important;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        border: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    #datatable_wrapper .action{
+        text-align: right !important;
+    }
+}

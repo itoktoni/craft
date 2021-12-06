@@ -3,6 +3,7 @@
 namespace Modules\Transaction\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
 use Modules\Master\Dao\Facades\LocationFacades;
 use Modules\Master\Dao\Facades\ProductFacades;
 use Modules\Master\Dao\Repositories\ProductRepository;
@@ -40,9 +41,20 @@ class WoReceiveRequest extends FormRequest
 
     public function prepareForValidation()
     {
+        $validator = Validator::make(request()->all(), [
+            WoFacades::mask_location_id() => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+       
         $map = collect($this->detail)->map(function ($item){
             $data[WoDetailFacades::mask_wo_code()] = $this->code;
             $data[WoDetailFacades::mask_product_id()] = $item['temp_id'];
+            $data[WoDetailFacades::mask_notes()] = $item['temp_notes'];
             $data[WoDetailFacades::mask_receive()] = Helper::filterInput($item['temp_receive']);
             return $data;
         }); 
@@ -77,14 +89,11 @@ class WoReceiveRequest extends FormRequest
 
     public function rules()
     {
-        if (request()->isMethod('POST')) {
-            return [
-                WoFacades::mask_customer_id() => 'required',
-                WoFacades::mask_location_id() => 'required',
-                'detail' => 'required',
-            ];
-        }
-        return [];
+        return [
+            WoFacades::mask_customer_id() => 'required',
+            WoFacades::mask_location_id() => 'required',
+            'detail' => 'required',
+        ];
     }
 
     public function attributes()

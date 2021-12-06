@@ -88,7 +88,7 @@ class SalesOrderController extends Controller
 
     public function data(DataService $service)
     {
-        return $service
+        $data = $service
             ->setModel(self::$model)
             ->EditColumn([
                 self::$model->mask_value() => 'mask_value_format',
@@ -103,6 +103,8 @@ class SalesOrderController extends Controller
                 'folder'    => config('folder'),
             ])
             ->make();
+
+        return $data;
     }
 
     public function edit($code)
@@ -123,11 +125,12 @@ class SalesOrderController extends Controller
 
     public function show($code)
     {
-        $data = $this->get($code);
-        return view(Views::show())->with($this->share([
+        $data = $this->get($code, ['has_monitoring']);
+        return view(Views::show(config('page'), config('folder')))->with($this->share([
             'fields' => Helper::listData(self::$model->datatable),
             'model' => $data,
-            'detail' => $data->detail ?? []
+            'monitoring' => $data->has_monitoring ?? [],
+            'detail' => $data->has_detail ?? []
         ]));
     }
 
@@ -149,11 +152,12 @@ class SalesOrderController extends Controller
 
     public function printOrder($code)
     {
-        $data = $this->get($code, ['has_customer', 'has_detail', 'has_detail.has_product']);
+        $data = $this->get($code, ['has_customer', 'has_detail', 'has_payment', 'has_detail.has_product']);
 
         $passing = [
             'master' => $data,
-            'detail' => $data->has_detail,
+            'detail' => $data->has_detail ?? null,
+            'payment' => $data->has_payment ?? null,
             'bank' => Views::option(new BankRepository(), false, true)
         ];
 
@@ -176,7 +180,7 @@ class SalesOrderController extends Controller
             ]));
     }
 
-    public function doPayment(PaymentRequest $request, CreateService $service, PaymentRepository $model)
+    public function postPayment(PaymentRequest $request, CreateService $service, PaymentRepository $model)
     {
         $data = $service->save($model, $request);
         return Response::redirectBack($data);
@@ -189,10 +193,15 @@ class SalesOrderController extends Controller
             ->with($this->share([
                 'model' => $data,
                 'detail' => $data->has_detail,
+                'status' => TransactionStatus::getOptions([
+                    TransactionStatus::Packaging,
+                    TransactionStatus::Delivery,
+                    TransactionStatus::Finish
+                ])
             ]));
     }
 
-    public function doDelivery(SoDeliveryRequest $request, SoDeliveryService $service)
+    public function postDelivery(SoDeliveryRequest $request, SoDeliveryService $service)
     {
         $data = $service->update(self::$model, $request, $request->code);
         return Response::redirectBack($data);
@@ -213,14 +222,15 @@ class SalesOrderController extends Controller
 
     public function printInvoice($code)
     {
-        $data = $this->get($code, ['has_customer', 'has_detail', 'has_detail.has_product']);
-        $bank = Views::option(new BankRepository(), false, true);
-
+        $data = $this->get($code, ['has_customer', 'has_detail', 'has_job', 'has_payment', 'has_detail.has_product']);
         $passing = [
             'master' => $data,
-            'bank' => $bank,
-            'detail' => $data->has_detail,
+            'job_order' => $data->has_job,
+            'detail' => $data->has_detail ?? null,
+            'payment' => $data->has_payment ?? null,
+            'bank' => Views::option(new BankRepository(), false, true)
         ];
+
 
         $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
         return $pdf->stream();

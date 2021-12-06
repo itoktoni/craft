@@ -72,7 +72,7 @@ class SoRequest extends FormRequest
             'jo_delivery_pickup' => $template->jo_delivery_pickup ?? '', 
         ];
 
-        if($template->has_detail){
+        if($template){
 
             foreach($template->has_detail as $detail){
 
@@ -139,6 +139,7 @@ class SoRequest extends FormRequest
             'wo' => $data_wo,
             'wo_detail' => $data_wo_detail,
             'jo' => $data_jo,
+            'so_status' => 1,
             'jo_detail' => $data_jo_detail,
         ]);
 

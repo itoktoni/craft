@@ -106,7 +106,7 @@ class UpdateGroupModuleService extends UpdateService
                             
                             if (strpos(strtolower($function), 'export') !== false) {
                                 $visible = '0';
-                                $metode = 'POST';
+                                $metode = 'GET';
                             }
                         }
 
@@ -115,7 +115,7 @@ class UpdateGroupModuleService extends UpdateService
                             $metode = 'GET';
                         }
 
-                        if (strpos(strtolower($function), 'do') !== false) {
+                        if (strpos(strtolower($function), 'post') !== false) {
                             $visible = '0';
                             $metode = 'POST';
                         }

@@ -20,7 +20,8 @@
         <div class="navbar-fixed-bottom" id="menu_action">
             <div class="text-right action-wrapper">
                 <a id="linkMenu" href="{!! route($route_index) !!}" class="btn btn-warning">{{ __('Back') }}</a>
-                <a id="linkMenu" href="{!! route($module.'_print_order', ['code' => $model->{$model->getKeyName()}]) !!}" target="_blank" class="btn btn-danger">{{ __('Print') }}</a>
+                <a id="linkMenu" href="{!! route($module.'_print_order', ['code' => $model->{$model->getKeyName()}]) !!}" target="_blank" class="btn btn-danger">{{ __('Print Order') }}</a>
+                <a id="linkMenu" href="{!! route('transaction_job_order_print', ['code' => $model->has_job->jo_code]) !!}" target="_blank" class="btn btn-success">{{ __('Job Order') }}</a>
                 @isset($actions['update'])
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                 @endisset

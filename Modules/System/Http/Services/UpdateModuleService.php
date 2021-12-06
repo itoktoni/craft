@@ -29,6 +29,7 @@ class UpdateModuleService extends UpdateService
         'patch' => 'POST',
         'master' => 'POST',
         'batch' => 'POST',
+        'action' => 'POST',
         'download' => 'GET',
         'get' => 'GET',
     ];
@@ -77,7 +78,7 @@ class UpdateModuleService extends UpdateService
                     $metode = 'GET';
                 }
 
-                if (strpos(strtolower($function), 'do') !== false) {
+                if (strpos(strtolower($function), 'post') !== false) {
                     $visible = '0';
                     $metode = 'POST';
                 }

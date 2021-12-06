@@ -431,15 +431,11 @@ trait ValidatesAttributes
             return false;
         }
 
-        foreach ($parameters as $format) {
-            $date = DateTime::createFromFormat('!'.$format, $value);
+        $format = $parameters[0];
 
-            if ($date && $date->format($format) == $value) {
-                return true;
-            }
-        }
+        $date = DateTime::createFromFormat('!'.$format, $value);
 
-        return false;
+        return $date && $date->format($format) == $value;
     }
 
     /**
@@ -1975,7 +1971,7 @@ trait ValidatesAttributes
             return $value->getSize() / 1024;
         }
 
-        return mb_strlen($value ?? '');
+        return mb_strlen($value);
     }
 
     /**
@@ -2072,6 +2068,7 @@ trait ValidatesAttributes
      *
      * @param  string  $attribute
      * @param  string  $rule
+     *
      * @return void
      */
     protected function shouldBeNumeric($attribute, $rule)

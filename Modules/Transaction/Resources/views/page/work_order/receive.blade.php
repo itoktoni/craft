@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="panel-body">
-        {!! Form::model($model, ['route'=>[$module.'_do_receive', 'code' =>
+        {!! Form::model($model, ['route'=>[$module.'_post_receive', 'code' =>
         $model->{$model->getKeyName()}],'class'=>'form-horizontal','files'=>true]) !!}
         <div class="panel panel-default">
             <header class="panel-heading">
@@ -55,7 +55,7 @@
                         @if(auth()->user()->group_user != GroupUserStatus::Customer)
                         {!! Form::label('name', __('Notes'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
                         <div class="col-md-10 col-sm-10">
-                            {!! Form::textarea('wo_notes_receive', null, ['class' => 'form-control', 'rows' => '3'])
+                            {!! Form::textarea('wo_notes_internal', null, ['class' => 'form-control', 'rows' => '3'])
                             !!}
                         </div>
                         @endif

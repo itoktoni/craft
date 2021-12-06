@@ -34,4 +34,19 @@ class Location extends Model
         'location_warehouse_id' => [true => 'Name'],
         'location_description' => [true => 'Description'],
     ];
+
+    public function mask_name()
+    {
+        return 'location_name';
+    }
+
+    public function setMaskNameAttribute($value)
+    {
+        $this->attributes[$this->mask_name()] = $value;
+    }
+
+    public function getMaskNameAttribute()
+    {
+        return $this->{$this->mask_name()};
+    }
 }

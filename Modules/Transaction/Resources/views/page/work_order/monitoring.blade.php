@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="panel-body">
-        {!! Form::open(['route' => $module.'_do_monitoring', 'class' => 'form-horizontal', 'files' => true]) !!}
+        {!! Form::open(['route' => $module.'_post_monitoring', 'class' => 'form-horizontal', 'files' => true]) !!}
         <div class="panel panel-default">
             <header class="panel-heading">
                 <h2 class="panel-title">Form Monitoring Work Order : {{ $model->{$model->getKeyName()} }} </h2>
@@ -14,20 +14,29 @@
 
                 <div class="form-group">
 
-                    {!! Form::label('name', __('Status'), ['class' => 'col-md-1 col-sm-2 control-label']) !!}
-                    <div class="col-md-2 col-sm-2 {{ $errors->has('monitoring_status') ? 'has-error' : ''}}">
+                    {!! Form::label('name', __('Status'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
+                    <div class="col-md-4 col-sm-2 {{ $errors->has('monitoring_status') ? 'has-error' : ''}}">
                         {{ Form::select('monitoring_status', $status, null, ['class'=> 'form-control ']) }}
                         {!! $errors->first('monitoring_status', '<p class="help-block">:message</p>') !!}
                     </div>
 
-                    {!! Form::label('name', __('Notes'), ['class' => 'col-md-1 col-sm-2 control-label']) !!}
-                    <div class="col-md-8 col-sm-8 {{ $errors->has('monitoring_notes') ? 'has-error' : ''}}">
+                    {!! Form::label('name', __('Product'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
+                    <div class="col-md-4 col-sm-2 {{ $errors->has('monitoring_product_id') ? 'has-error' : ''}}">
+                        {{ Form::select('monitoring_product_id', $product, null, ['class'=> 'form-control ']) }}
+                        {!! $errors->first('monitoring_product_id', '<p class="help-block">:message</p>') !!}
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('name', __('Notes'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
+                    <div class="col-md-10 col-sm-8 {{ $errors->has('monitoring_notes') ? 'has-error' : ''}}">
                         {!! Form::textarea('monitoring_notes', null, ['class' => 'form-control', 'rows' => '5']) !!}
                         {!! $errors->first('monitoring_notes', '<p class="help-block">:message</p>') !!}
                     </div>
 
-
                     <input type="hidden" name="monitoring_wo_code" value="{{ $model->{$model->getKeyName()} }}">
+                    <input type="hidden" name="monitoring_so_code" value="{{ $model->{$model->mask_so_code()} }}">
                 </div>
 
             </div>
@@ -52,6 +61,7 @@
                     <table class="table table-no-more table-bordered table-striped mb-none">
                         <thead>
                             <tr>
+                                <th class="text-left col-md-2">Product</th>
                                 <th class="text-left col-md-2">User</th>
                                 <th class="text-left col-md-2">Date</th>
                                 <th class="text-left">Notes</th>
@@ -59,9 +69,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if($model->has_monitoring)
-                            @foreach($model->has_monitoring as $monitor)
+                            @if($monitoring)
+                            @foreach($monitoring as $monitor)
                             <tr>
+                                <td data-title="User">
+                                    {{ $monitor->has_product->product_name ?? '' }}
+                                </td>
                                 <td data-title="User">
                                     {{ $monitor->mask_created_name }}
                                 </td>
