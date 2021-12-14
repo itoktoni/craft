@@ -9,6 +9,7 @@
                 <h2 class="panel-title">{{ __('Show') }} {{ __($form_name) }} : {{ $model->{$model->getKeyName()} }}
                 </h2>
             </header>
+
             <div class="panel-body line">
                 <div class="show">
                     <table class="table table-table table-bordered table-striped table-hover mb-none">
@@ -40,7 +41,59 @@
                 </div>
             </div>
 
-            @include($template_action)
+            <div class="panel-body line">
+                <table id="transaction" class="table table-no-more table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-left col-md-1">ID</th>
+                            <th class="text-left col-md-4">Product Name</th>
+                            <th class="text-right col-md-1">Qty</th>
+                            <th class="text-right col-md-1">price</th>
+                            <th class="text-right col-md-3">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="markup">
+                        @if(!empty($detail) || old('detail'))
+                        @foreach (old('detail') ?? $detail as $item)
+                        <tr>
+                            <td data-title="ID Product">
+                                {{ $item['temp_id'] ?? $item->mask_product_id }}
+                            </td>
+                            <td data-title="Product">
+                                {{ $item->mask_product_name }}
+                            </td>
+                            <td data-title="Qty" class="text-right col-lg-1">
+                                {{ $item->mask_qty }}
+                            </td>
+
+                            <td data-title="Price" class="text-right col-lg-1">
+                                 {{ Helper::createRupiah($item->mask_price) }}
+                            </td>
+
+                            <td data-title="Total" class="text-right col-lg-3">
+                                {{ Helper::createRupiah($item->mask_total) }}
+                            </td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="4" class="text-right">Total</td>
+                            <td  class="text-right">{{ Helper::createRupiah($detail->sum('wo_detail_total')) }}</td>
+                        </tr>
+                        @endisset
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="navbar-fixed-bottom" id="menu_action">
+                <div class="text-right action-wrapper">
+                    <a id="linkMenu" href="{!! route($route_index) !!}" class="btn btn-warning">{{ __('Back') }}</a>
+                    <a id="linkMenu" href="{!! route($module.'_print_wo', ['code' => $model->{$model->getKeyName()}]) !!}" target="_blank" class="btn btn-danger">{{ __('Print') }}</a>
+                    @isset($actions['update'])
+                    <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                    @endisset
+                </div>
+            </div>
 
         </div>
 
@@ -93,7 +146,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                             @endif
                         </tbody>
 

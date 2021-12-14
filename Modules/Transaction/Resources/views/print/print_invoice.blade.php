@@ -647,7 +647,8 @@
                 <td colspan="8">
                     <p>
                         @php
-                        $total_value = intval($detail->sum('so_detail_total'));
+                        $total_product = $total_value = 0;
+
                         $total_discount = $master->mask_discount;
                         $grand_total = intval($total_value - $total_discount);
                         $persentage = $grand_total * (env('DOWN_PAYMENT') / 100);
@@ -682,6 +683,12 @@
                 </td>
             </tr>
             @foreach($detail as $item)
+
+            @php
+            $total_product = $item->mask_sent * $item->mask_price;
+            $total_value = $total_value + $total_product;
+            @endphp
+
             <tr class="item">
                 <td class="no">
                     {{ $loop->iteration }}
@@ -709,7 +716,7 @@
                         - {{ Helper::createRupiah($item->discount) }}
                     </span>
                     @endif
-                    {{ Helper::createRupiah($item->mask_sent * $item->mask_price) ?? '' }}
+                    {{ Helper::createRupiah($total_value) ?? '' }}
                 </td>
             </tr>
             @endforeach
@@ -772,13 +779,13 @@
 
     </div>
     
-    <img style="position:absolute;width:150px;right:190px;margin-top:50px" src="{{ Helper::print('logo/mpe.png') }}">
+    <img style="position:absolute;width:130px;right:237px;margin-top:45px" src="{{ Helper::print('logo/mpe.png') }}">
     <div id="container">
 
         <table style="border-collapse:collapse;border:none;width:100% !important">
             <tbody>
                 <tr>
-                    <td class="position:relative" colspan="3" rowspan="5" style="width: 235.55pt;border: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
+                    <td class="position:relative" colspan="3" rowspan="1" style="width: 235.55pt;border: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                         <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
                             <strong>INVOICE RECEIVER</strong>
                         </p>
@@ -794,49 +801,25 @@
                             {{ $job_order->jo_receiver_npwp ?? '' }}
                         </p>
                     </td>
-                    <td style="width:93.7pt;border-top:solid windowtext 1.0pt;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:none;padding:0in 5.4pt 0in 5.4pt;">
-                        <div style="height: 400px;">
-                        </div>
-                    </td>
-                    <td style="width:148.25pt;border:solid windowtext 1.0pt;border-left:  none;padding:0in 5.4pt 0in 5.4pt;">
-                        <p style='margin-top:10px;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;'>
+                    
+                    <td colspan="2" style="width:148.25pt;border:solid windowtext 1.0pt;border-left:  none;padding:0in 5.4pt 0in 5.4pt;">
+                        <p style='margin-top:10px;margin-right:0in;margin-bottom:50px;margin-left:135px;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;'>
                             PT. MULTI PRATAMA EKSPRES
                         </p>
-                    </td>
-                </tr>
-                <tr>
 
-                </tr>
-                <tr>
-                    <td class="no-padding" style="width: 93.7pt;border: none;padding: 0in 5.4pt;vertical-align: top;">
-                        <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                            INVOICE NO</p>
-                    </td>
-                    <td class="no-padding" style="width: 148.25pt;border-top: none;border-bottom: none;border-left: none;border-image: initial;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
-                        <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                            : {{ $job_order->jo_code ?? '' }}</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="no-padding" style="width: 93.7pt;border: none;padding: 0in 5.4pt;vertical-align: top;">
-                        <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                            FILE REF.NO</p>
-                    </td>
-                    <td class="no-padding" style="width: 148.25pt;border-top: none;border-bottom: none;border-left: none;border-image: initial;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
-                        <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                            : {{ $job_order->jo_ref_code ?? '' }}</p>
+                        <p style='margin-top:5px;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
+                            INVOICE NO : {{ $job_order->jo_code ?? '' }}
+                        </p>
+                        <p style='margin-top:5px;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
+                            FILE REF.NO :  {{ $job_order->jo_ref_code ?? '' }}
+                        </p>
+                        <p style='margin-top:5px;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
+                        INVOICE DATE : {{ $job_order->jo_invoice_date ? $job_order->jo_invoice_date->format('d F Y') : '' }}
+                        </p>
+
                     </td>
                 </tr>
-                <tr>
-                    <td class="no-padding" style="width: 93.7pt;border-top: none;border-right: none;border-left: none;border-image: initial;border-bottom: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
-                        <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                            INVOICE DATE</p>
-                    </td>
-                    <td class="no-padding" style="width: 148.25pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
-                        <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                            : {{ $job_order->jo_invoice_date ? $job_order->jo_invoice_date->format('d F Y') : '' }}</p>
-                    </td>
-                </tr>
+              
                 <tr>
                     <td colspan="3" style="width: 225.55pt;border-right: 1pt solid windowtext;border-bottom: 1pt solid windowtext;border-left: 1pt solid windowtext;border-image: initial;border-top: none;padding: 0in 5.4pt;vertical-align: top;">
                         <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
@@ -988,7 +971,7 @@
 
             </tbody>
 
-            <tfoot>
+            <tbody>
                 <tr>
                     <td colspan="4" style="width: 319.25pt;border-top: none;border-left: 1pt solid windowtext;border-bottom: 1pt solid windowtext;border-right: none;padding: 0in 5.4pt;vertical-align: top;">
                         <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
@@ -1050,7 +1033,7 @@
                         </p>
                     </td>
                 </tr>
-            </tfoot>
+            </tbody>
         </table>
     </div>
 

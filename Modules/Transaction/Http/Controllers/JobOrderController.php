@@ -136,7 +136,7 @@ class JobOrderController extends Controller
     public function update($code, JoRequest $request, JoUpdateService $service)
     {
         $data = $service->update(self::$model, $request, $code);
-        return Response::redirectBack($data);
+        return Response::redirectBack();
     }
 
     public function show($code)

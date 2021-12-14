@@ -40,6 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'token',
         'email_verified_at',
         'company',
+        'supplier',
     ];
 
     public $with = ['has_company'];

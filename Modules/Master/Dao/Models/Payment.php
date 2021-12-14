@@ -47,6 +47,7 @@ class Payment extends Model
         'payment_approved_at',
         'payment_deleted_at',
         'payment_date',
+        'payment_type',
     ];
 
     protected $filters = [

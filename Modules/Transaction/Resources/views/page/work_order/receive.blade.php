@@ -26,10 +26,10 @@
                             {!! $errors->first('wo_status', '<p class="help-block">:message</p>') !!}
                         </div>
                         @else
-                        {!! Form::label('name', __('Last Status'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
-                        <div class="col-md-4 col-sm-4">
-                            <button
-                                class="btn btn-default btn-block text-left">{{ TransactionStatus::getDescription($model->mask_status) }}</button>
+                        {!! Form::label('name', __('Status'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
+                        <div class="col-md-4 col-sm-4 {{ $errors->has('wo_status') ? 'has-error' : ''}}">
+                            {{ Form::select('wo_status', [TransactionStatus::Receive => TransactionStatus::getDescription(TransactionStatus::Receive)], null, ['class'=> 'form-control ']) }}
+                            {!! $errors->first('wo_status', '<p class="help-block">:message</p>') !!}
                         </div>
                         @endif
                     </div>
@@ -72,7 +72,7 @@
             <div class="text-right action-wrapper">
                 <a id="linkMenu" href="{!! route($route_index) !!}" class="btn btn-warning">{{ __('Back') }}</a>
                 <a id="linkMenu" href="{!! route($module.'_print_receive', ['code' => $model->{$model->getKeyName()}]) !!}" target="_blank" class="btn btn-danger">{{ __('Print') }}</a>
-                @isset($actions['update'])
+                @isset($actions['form_receive'])
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                 @endisset
             </div>

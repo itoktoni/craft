@@ -13,12 +13,11 @@ class TransactionStatus extends Enum
     const Create            =  1;
     const Approve           =  2;
     const Process           =  3;
-    const Complete          =  4;
-    const Packaging         =  5;
-    const Delivery           =  6;
-    const Pending           =  7;
-    const Finish            =  8;
-    const Cancel            =  9;
+    const Receive          =  4;
+    const Delivery           =  5;
+    const Pending           =  6;
+    const Finish            =  7;
+    const Cancel            =  8;
 
     public static function colors()
     {
@@ -26,8 +25,7 @@ class TransactionStatus extends Enum
             self::Create => ColorType::Primary,
             self::Approve => ColorType::Primary,
             self::Process => ColorType::Primary,
-            self::Complete => ColorType::Primary,
-            self::Packaging => ColorType::Primary,
+            self::Receive => ColorType::Primary,
             self::Delivery => ColorType::Primary,
             self::Finish => ColorType::Primary,
             self::Cancel => ColorType::Primary,

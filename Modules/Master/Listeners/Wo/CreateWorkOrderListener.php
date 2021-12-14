@@ -33,8 +33,6 @@ class CreateWorkOrderListener
             $grouping = $event->detail->mapToGroups(function($item){
                 return [$item->mask_supplier_id => $item];
             });
-
-            dd($grouping);
         }
     }
 }

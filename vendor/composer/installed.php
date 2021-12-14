@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'f067ed3e8964d5a72d499a1051532172f7d86fe8',
+        'reference' => '0c8dbbe2143d3f90a49fcb95bf3845dcf9e09b3d',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -598,7 +598,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'f067ed3e8964d5a72d499a1051532172f7d86fe8',
+            'reference' => '0c8dbbe2143d3f90a49fcb95bf3845dcf9e09b3d',
             'dev_requirement' => false,
         ),
         'laravel/legacy-factories' => array(
@@ -1014,6 +1014,15 @@
             'aliases' => array(),
             'reference' => 'c814a05837f2edb0d1471d6e3f4ab3501ca3899a',
             'dev_requirement' => true,
+        ),
+        'predis/predis' => array(
+            'pretty_version' => 'v1.1.9',
+            'version' => '1.1.9.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../predis/predis',
+            'aliases' => array(),
+            'reference' => 'c50c3393bb9f47fa012d0cdfb727a266b0818259',
+            'dev_requirement' => false,
         ),
         'psr/container' => array(
             'pretty_version' => '1.1.2',

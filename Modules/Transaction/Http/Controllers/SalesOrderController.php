@@ -194,7 +194,6 @@ class SalesOrderController extends Controller
                 'model' => $data,
                 'detail' => $data->has_detail,
                 'status' => TransactionStatus::getOptions([
-                    TransactionStatus::Packaging,
                     TransactionStatus::Delivery,
                     TransactionStatus::Finish
                 ])
@@ -231,7 +230,7 @@ class SalesOrderController extends Controller
             'bank' => Views::option(new BankRepository(), false, true)
         ];
 
-
+        // return view(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
         $pdf = PDF::loadView(Helper::setViewPrint(__FUNCTION__, config('folder')), $passing);
         return $pdf->stream();
     }

@@ -46,7 +46,7 @@
     <tbody>
         <tr>
             <td data-title="Sebelum Discount" colspan="4" class="text-right">
-                <strong>Total Sebelum Discount</strong>
+                <strong>Total Value</strong>
             </td>
             <td data-title="" class="text-right">
                 {!! Form::text('so_sum_value', null, ['id' => 'before_discount',

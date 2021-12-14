@@ -33,6 +33,7 @@ use Modules\Transaction\Http\Requests\WoRequest;
 use Modules\Transaction\Http\Services\WoCreateService;
 use Modules\Transaction\Http\Services\WoUpdateService;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Route;
 use Modules\Master\Dao\Facades\ProductFacades;
 use Modules\Master\Dao\Repositories\LocationRepository;
 use Modules\Master\Dao\Repositories\WarehouseRepository;
@@ -135,7 +136,7 @@ class WorkOrderController extends Controller
         return view(Views::show(config('page'), config('folder')))->with($this->share([
             'fields' => Helper::listData(self::$model->datatable),
             'model' => $data,
-            'detail' => $data->detail ?? []
+            'detail' => $data->has_detail ?? []
         ]));
     }
 
@@ -250,7 +251,7 @@ class WorkOrderController extends Controller
             'order' => [$data->mask_so_code => $data->mask_so_code],
             'customer' => [$data->mask_customer_id => $data->mask_customer_name],
             'status' => TransactionStatus::getOptions([
-                TransactionStatus::Delivery, TransactionStatus::Complete
+                TransactionStatus::Delivery, TransactionStatus::Finish
             ]),
         ]));
     }

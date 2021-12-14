@@ -27,7 +27,7 @@
                 <input type="text" readonly class="form-control input-sm" value="{{ $item['temp_product'] ?? $item->mask_product_name }}" name="detail[{{ $loop->index }}][temp_product]">
             </td>
             <td data-title="Qty" class="text-right col-lg-1">
-                <input type="text" tabindex="{{ $loop->iteration }}1" name="detail[{{ $loop->index }}][temp_qty]" class="form-control input-sm text-right number temp_qty" value="{{ $item['temp_qty'] ?? $item->mask_qty }}">
+                <input type="text" tabindex="{{ $loop->iteration }}1" name="detail[{{ $loop->index }}][temp_qty]" class="form-control input-sm text-right number temp_qty" {{ auth()->user()->mask_group_user != GroupUserStatus::Developer ? 'readonly' : '' }} value="{{ $item['temp_qty'] ?? $item->mask_qty }}">
 
             </td>
             <td data-title="Price" class="text-right col-lg-1">

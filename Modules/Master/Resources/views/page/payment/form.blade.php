@@ -39,17 +39,23 @@
 
 <div class="form-group">
 
-    {!! Form::label('name', __('Payment User'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
-    <div class="col-md-4 col-sm-4 {{ $errors->has('payment_value_user') ? 'has-error' : ''}}">
+    {!! Form::label('name', __('Payment Type'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
+    <div class="col-md-4 col-sm-4 {{ $errors->has('payment_type') ? 'has-error' : ''}}">
+        {{ Form::select('payment_type', $type, null, ['class'=> 'form-control ']) }}
+        {!! $errors->first('payment_type', '<p class="help-block">:message</p>') !!}
+    </div>
+
+    {!! Form::label('name', __('Payment'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
+    <div class="col-md-2 col-sm-2 {{ $errors->has('payment_value_approve') ? 'has-error' : ''}}">
         {!! Form::text('payment_value_user', null, ['class' => 'form-control', 'disabled']) !!}
         {!! $errors->first('payment_value_user', '<p class="help-block">:message</p>') !!}
     </div>
-
-    {!! Form::label('name', __('Payment Approve'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
-    <div class="col-md-4 col-sm-4 {{ $errors->has('payment_value_approve') ? 'has-error' : ''}}">
+    <div class="col-md-2 col-sm-2 {{ $errors->has('payment_value_approve') ? 'has-error' : ''}}">
         {!! Form::text('payment_value_approve', null, ['class' => 'form-control']) !!}
         {!! $errors->first('payment_value_approve', '<p class="help-block">:message</p>') !!}
     </div>
+
+    
 
 </div>
 
@@ -97,12 +103,12 @@
     {!! Form::label('name', __('Attachement'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
     <div class="col-md-4 col-sm-4" {{ $errors->has('payment_file') ? 'has-error' : ''}}">
         <div class="input-group">
-        <input type="file" name="file" class="{{ $errors->has('payment_file') ? 'has-error' : ''}} btn btn-default btn-sm btn-block">
+            <input type="file" name="file" class="{{ $errors->has('payment_file') ? 'has-error' : ''}} btn btn-default btn-sm btn-block">
             <span class="input-group-addon">
                 <a target="_blank" class="text-primary" href="{{ isset($model) ? Helper::files('payment/'.$model->payment_file) : '' }}">Download</a>
             </span>
         </div>
-        
+
         {!! $errors->first('payment_file', '<p class="help-block">:message</p>') !!}
     </div>
 

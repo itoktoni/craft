@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Modules\Master\Dao\Repositories\CompanyRepository;
+use Modules\Master\Dao\Repositories\SupplierRepository;
 use Modules\System\Dao\Enums\ActiveStatus;
 use Modules\System\Dao\Repositories\GroupUserRepository;
 use Modules\System\Dao\Repositories\TeamRepository;
@@ -50,11 +51,13 @@ class TeamController extends Controller
         $status = Helper::shareStatus(self::$model->status)->prepend('- Select Status -', '');
         $group = Helper::shareOption((new GroupUserRepository()));
         $company = Views::option(new CompanyRepository());
+        $supplier = Views::option(new SupplierRepository());
 
         $view = [
             'key' => self::$model->getKeyName(),
             'status' => $status,
             'group' => $group,
+            'supplier' => $supplier,
             'company' => $company,
         ];
 
@@ -164,7 +167,7 @@ class TeamController extends Controller
             $key = auth()->user()->id;
             $access_menu = Auth::user()->username . '_access_menu';
             $group_list = Auth::user()->username . '_group_list';
-            $access_user = 'App\User_By_Id_' . Auth::user()->$key;
+            // $access_user = 'App\User_By_Id_' . Auth::user()->$key;
             Cache::has($access_menu) ? Cache::forget($access_menu) : '';
             Cache::has($group_list) ? Cache::forget($group_list) : '';
             Cache::has('tables') ? Cache::forget('tables') : '';

@@ -25,7 +25,7 @@
                                 <td>{{ $model->mask_created_at }}</td>
                             </tr>
                             <tr>
-                                <th class="col-lg-2">Grand Total</th>
+                                <th class="col-lg-2">Total Value</th>
                                 <td>{{ Helper::createRupiah($model->mask_total) }}</td>
                             </tr>
                             <tr>
