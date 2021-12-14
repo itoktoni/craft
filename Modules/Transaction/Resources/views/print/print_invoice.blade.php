@@ -575,8 +575,7 @@
 
 <body>
 
-
-<div id='page'>
+    <div id='page'>
         <img id="logo" src="{{ Helper::print('logo/logo.png') }}">
         <div id="box">
             <h1>
@@ -779,10 +778,9 @@
 
     </div>
     
-    <img style="position:absolute;width:130px;right:237px;margin-top:45px" src="{{ Helper::print('logo/mpe.png') }}">
-    <div id="container">
-
-        <table style="border-collapse:collapse;border:none;width:100% !important">
+    <div id="page container" style="margin-left: -15px;">
+        <img style="position:absolute;width:130px;right:230px;margin-top:10px" src="{{ Helper::print('logo/mpe.png') }}">
+        <table style="border-collapse:collapse;border:none;width:90% !important;margin-right:50px">
             <tbody>
                 <tr>
                     <td class="position:relative" colspan="3" rowspan="1" style="width: 235.55pt;border: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
