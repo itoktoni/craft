@@ -11,4 +11,5 @@ class GroupUserStatus extends Enum
     const Customer = 'customer';   
     const Developer = 'developer';   
     const Admin = 'admin';   
+    const Warehouse = 'warehouse';   
 }

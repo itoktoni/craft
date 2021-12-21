@@ -251,7 +251,7 @@ class WorkOrderController extends Controller
             'order' => [$data->mask_so_code => $data->mask_so_code],
             'customer' => [$data->mask_customer_id => $data->mask_customer_name],
             'status' => TransactionStatus::getOptions([
-                TransactionStatus::Delivery, TransactionStatus::Finish
+                TransactionStatus::Receive, TransactionStatus::Finish
             ]),
         ]));
     }

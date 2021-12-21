@@ -21,11 +21,11 @@ $(document).ready( function () {
     {!! Form::model($model, ['route'=>[Route::currentRouteName().'_export', 'code' => $model->{$model->getKeyName()}],'class'=>'form-horizontal','method'=> 'GET']) !!}
         <div class="panel panel-default">
             <header class="panel-heading">
-                <h2 class="panel-title">{{ __('Report') }} {{ __('Payment') }} {{ __('In Out') }}</h2>
+                <h2 class="panel-title">{{ __('Report') }} {{ __('Sales') }} {{ __('Summary') }}</h2>
             </header>
 
             <div class="panel-body line">
-                @includeIf(Views::form('in_out_form', $template, $folder))
+                @includeIf(Views::form('piutang_form', $template, $folder))
             </div>
 
             <div class="navbar-fixed-bottom" id="menu_action">

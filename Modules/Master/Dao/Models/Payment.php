@@ -51,6 +51,8 @@ class Payment extends Model
     ];
 
     protected $filters = [
+        'payment_status',
+        'payment_type',
         'payment_model',
         'payment_created_by',
     ];

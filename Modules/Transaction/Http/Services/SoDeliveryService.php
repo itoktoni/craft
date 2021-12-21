@@ -19,12 +19,16 @@ class SoDeliveryService extends UpdateService
         if ($data[SoFacades::mask_status()] == TransactionStatus::Delivery) {
 
             $data[SoFacades::mask_status()] = TransactionStatus::Finish;
-
             foreach ($data['detail'] as $detail) {
 
-                $stock = StockFacades::where(StockFacades::mask_so_code(), $detail[SoDetailFacades::mask_so_code()])->first();
-                $stock->stock_qty = $stock->stock_qty - $detail['so_detail_sent'];
-                $stock->save();
+                $stock = StockFacades::where(StockFacades::mask_so_code(), $detail[SoDetailFacades::mask_so_code()])
+                ->Where(StockFacades::mask_product_id(), $detail[SoDetailFacades::mask_product_id()])->first();
+                $qty = $stock->mask_qty - $detail['so_detail_sent'];
+                
+                $stock = StockFacades::where(StockFacades::mask_so_code(), $detail[SoDetailFacades::mask_so_code()])
+                ->Where(StockFacades::mask_product_id(), $detail[SoDetailFacades::mask_product_id()])->update([
+                    'stock_qty' => $qty
+                ]);
             }
         }
 

@@ -18,7 +18,7 @@
                             {{ Form::select('so_customer_id', $customer, null, ['class'=> 'form-control ']) }}
                             {!! $errors->first('so_customer_id', '<p class="help-block">:message</p>') !!}
                         </div>
-                        @if(auth()->user()->group_user == GroupUserStatus::Developer)
+                        @if(auth()->user()->group_user == GroupUserStatus::Developer || auth()->user()->group_user == GroupUserStatus::Admin)
                         {!! Form::label('name', __('Status'), ['class' => 'col-md-2 col-sm-2 control-label']) !!}
                         <div class="col-md-4 col-sm-4 {{ $errors->has('so_status') ? 'has-error' : ''}}">
                             {{ Form::select('so_status', $status, null, ['class'=> 'form-control ']) }}

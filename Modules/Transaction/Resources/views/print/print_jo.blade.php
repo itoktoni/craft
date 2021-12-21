@@ -31,7 +31,7 @@ table tr td {
                     style="width: 225.55pt;border: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;'>
-                        <strong>INVOICE RECEIVER</strong>
+                        <strong>INVOICE RECEIVER2</strong>
                     </p>
                     <br>
                     <p
@@ -53,7 +53,7 @@ table tr td {
                     <p
                         style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;'>
                         <img width="101"
-                            src="https://myfiles.space/user_files/103444_557a6973d1152da1/103444_custom_files/img1635827715.png"
+                            src="{{ Helper::print('logo/mpe.png') }}"
                             alt="Logo
 
 Description automatically generated">

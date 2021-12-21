@@ -15,6 +15,7 @@ use Modules\Transaction\Dao\Facades\StockFacades;
 use Modules\Transaction\Dao\Facades\WoDetailFacades;
 use Modules\Transaction\Dao\Facades\WoFacades;
 use Modules\Transaction\Dao\Models\So;
+use Modules\Transaction\Dao\Models\Stock;
 use PhpParser\Node\Stmt\Foreach_;
 
 class WoReceiveRequest extends FormRequest
@@ -47,26 +48,26 @@ class WoReceiveRequest extends FormRequest
 
         if ($validator->fails()) {
             return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
-       
-        $map = collect($this->detail)->map(function ($item){
+
+        $map = collect($this->detail)->map(function ($item) {
             $data[WoDetailFacades::mask_wo_code()] = $this->code;
             $data[WoDetailFacades::mask_product_id()] = $item['temp_id'];
             $data[WoDetailFacades::mask_notes()] = $item['temp_notes'];
             $data[WoDetailFacades::mask_receive()] = Helper::filterInput($item['temp_receive']);
             return $data;
-        }); 
+        });
 
-        $order = collect($this->detail)->map(function ($item){
+        $order = collect($this->detail)->map(function ($item) {
             $data[SoDetailFacades::mask_so_code()] = $this->{WoFacades::mask_so_code()};
             $data[SoDetailFacades::mask_product_id()] = $item['temp_id'];
             $data[SoDetailFacades::mask_sent()] = Helper::filterInput($item['temp_receive']);
             return $data;
-        }); 
+        });
 
-        $stock = collect($this->detail)->map(function ($item){
+        $stock = collect($this->detail)->map(function ($item) {
 
             $warehouse = LocationFacades::find($this->wo_location_id);
             $data[StockFacades::mask_customer_id()] = $this->wo_customer_id;
@@ -77,14 +78,13 @@ class WoReceiveRequest extends FormRequest
             $data[StockFacades::mask_product_id()] = $item['temp_id'];
             $data[StockFacades::mask_qty()] = Helper::filterInput($item['temp_receive']);
             return $data;
-        }); 
+        });
 
         $this->merge([
             'detail' => array_values($map->toArray()),
             'stock' => array_values($stock->toArray()),
             'order' => array_values($order->toArray()),
         ]);
-
     }
 
     public function rules()

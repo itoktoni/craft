@@ -9,10 +9,14 @@ use Modules\Master\Dao\Enums\PaymentType;
 use Modules\Master\Dao\Facades\ProductFacades;
 use Modules\Master\Dao\Repositories\CompanyRepository;
 use Modules\Master\Dao\Repositories\ProductRepository;
+use Modules\Master\Dao\Repositories\SupplierRepository;
 use Modules\Report\Dao\Repositories\ReportFinanceSummary;
+use Modules\Report\Dao\Repositories\ReportPiutang;
+use Modules\Report\Dao\Repositories\ReportPiutangSummary;
 use Modules\Report\Dao\Repositories\ReportSoDetail;
 use Modules\Report\Dao\Repositories\ReportSoSummary;
 use Modules\Report\Dao\Repositories\ReportSummarySo;
+use Modules\Report\Dao\Repositories\ReportUtang;
 use Modules\Report\Dao\Repositories\SoSummaryExcel;
 use Modules\System\Dao\Repositories\TeamRepository;
 use Modules\System\Http\Services\PreviewService;
@@ -32,9 +36,18 @@ class FinanceController extends Controller
     private function share($data = [])
     {
         $user = Views::option(new TeamRepository());
-        $type = PaymentType::getOptions();
+        $product = Views::option(new ProductRepository());
+        $company = Views::option(new CompanyRepository());
+        $customer = Views::option(new TeamRepository());
+        $supplier = Views::option(new SupplierRepository());
         
+        $type = PaymentType::getOptions();
+
         $view = [
+            'supplier' => $supplier,
+            'product' => $product,
+            'company' => $company,
+            'customer' => $customer,            
             'type' => $type,
             'user' => $user,
         ];
@@ -57,6 +70,43 @@ class FinanceController extends Controller
 
     public function inOutExport(ReportService $service, ReportFinanceSummary $repository)
     {
-        return $service->generate($repository, 'export_summary');
+        return $service->generate($repository, 'export_in_out');
+    }
+
+    public function utang(ReportUtang $repository)
+    {
+        $preview = false;
+        if ($name = request()->get('name')) {
+            $preview = $repository->generate($name)->data();
+        }
+        return view(Views::form(__FUNCTION__, config('page'), config('folder')))
+            ->with($this->share([
+                'model' => $repository,
+                'preview' => $preview,
+            ]));
+    }
+
+    public function utangExport(ReportService $service, ReportUtang $repository)
+    {
+        return $service->generate($repository, 'export_utang');
+    }
+
+    public function piutang(ReportPiutang $repository)
+    {
+        $preview = false;
+        if ($name = request()->get('name')) {
+            $preview = $repository->generate($name)->data();
+        }
+
+        return view(Views::form(__FUNCTION__, config('page'), config('folder')))
+            ->with($this->share([
+                'model' => $repository,
+                'preview' => $preview,
+            ]));
+    }
+
+    public function piutangExport(ReportService $service, ReportPiutang $repository)
+    {
+        return $service->generate($repository, 'export_piutang');
     }
 }
